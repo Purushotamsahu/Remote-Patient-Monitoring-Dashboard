@@ -33,15 +33,11 @@ export default function DashboardLayout() {
     if (!user) return null;
 
     return (
-        <div className="flex h-screen overflow-hidden bg-slate-50 dark:bg-slate-900">
-            {/* Sidebar */}
+        <div className="flex h-screen overflow-hidden" style={{ background: 'var(--page-bg)' }}>
             <Sidebar open={sidebarOpen} />
-
-            {/* Main content */}
             <div className="flex flex-col flex-1 min-w-0 overflow-hidden">
                 <Topbar onToggleSidebar={() => dispatch(toggleSidebar())} />
-
-                <main className="flex-1 overflow-y-auto p-4 md:p-6 lg:p-8">
+                <main className="flex-1 overflow-y-auto">
                     <Outlet />
                 </main>
             </div>
