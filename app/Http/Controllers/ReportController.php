@@ -74,7 +74,7 @@ class ReportController extends Controller
     /**
      * GET /reports/{id}/pdf — Download PDF report.
      */
-    public function downloadPdf(string $id): \Symfony\Component\HttpFoundation\StreamedResponse|\Illuminate\Http\JsonResponse
+    public function downloadPdf(string $id): \Symfony\Component\HttpFoundation\BinaryFileResponse|\Illuminate\Http\JsonResponse
     {
         $report = Report::findOrFail($id);
 
@@ -84,7 +84,8 @@ class ReportController extends Controller
             $path = $report->pdf_path;
         }
 
-        return Storage::disk('local')->download($path, "report-{$id}.pdf");
+        $fullPath = Storage::disk('local')->path($path);
+        return response()->download($fullPath, "report-{$id}.pdf", ['Content-Type' => 'application/pdf']);
     }
 
     /**
