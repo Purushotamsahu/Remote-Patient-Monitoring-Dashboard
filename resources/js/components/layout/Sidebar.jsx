@@ -80,12 +80,12 @@ export default function Sidebar({ open }) {
     return (
         <aside className={`${
             open ? 'w-64' : 'w-0 overflow-hidden'
-        } transition-all duration-300 flex-shrink-0 flex flex-col`}
+        } transition-all duration-300 shrink-0 flex flex-col`}
             style={{ background: 'var(--sidebar-bg)' }}
         >
             {/* Logo */}
             <div className="px-5 py-5 border-b border-slate-700/60 flex items-center gap-3">
-                <div className="w-9 h-9 bg-gradient-to-br from-blue-500 to-cyan-500 rounded-xl flex items-center justify-center shadow-lg flex-shrink-0">
+                <div className="w-9 h-9 bg-linear-to-br from-blue-500 to-cyan-500 rounded-xl flex items-center justify-center shadow-lg shrink-0">
                     <svg className="w-5 h-5 text-white animate-heartbeat" fill="currentColor" viewBox="0 0 24 24">
                         <path d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"/>
                     </svg>
@@ -115,7 +115,7 @@ export default function Sidebar({ open }) {
                             {Icons[item.icon]}
                             <span className="flex-1 text-sm">{item.label}</span>
                             {badgeCount > 0 && (
-                                <span className="bg-red-500 text-white text-[10px] font-bold rounded-full min-w-[18px] h-[18px] flex items-center justify-center px-1 badge-pulse">
+                                <span className="bg-red-500 text-white text-[10px] font-bold rounded-full min-w-4.5 h-4.5 flex items-center justify-center px-1 badge-pulse">
                                     {badgeCount > 9 ? '9+' : badgeCount}
                                 </span>
                             )}
@@ -127,7 +127,7 @@ export default function Sidebar({ open }) {
             {/* User footer */}
             <div className="p-3 border-t border-slate-700/60">
                 <div className="flex items-center gap-3 px-2 py-2 mb-1">
-                    <div className={`w-9 h-9 ${roleBadgeBg} rounded-full flex items-center justify-center text-sm font-bold text-white flex-shrink-0 shadow-md`}>
+                    <div className={`w-9 h-9 ${roleBadgeBg} rounded-full flex items-center justify-center text-sm font-bold text-white shrink-0 shadow-md`}>
                         {user?.name?.[0]?.toUpperCase() ?? '?'}
                     </div>
                     <div className="flex-1 min-w-0">
@@ -141,109 +141,6 @@ export default function Sidebar({ open }) {
                 >
                     {Icons.logout}
                     <span className="text-sm">Sign Out</span>
-                </button>
-            </div>
-        </aside>
-    );
-}
-
-const navItems = {
-    admin: [
-        { to: '/admin',        label: 'Dashboard',     icon: '⊞' },
-        { to: '/alerts',       label: 'Alerts',        icon: '⚠️', badge: 'alerts' },
-        { to: '/reports',      label: 'Reports',       icon: '📋' },
-        { to: '/appointments', label: 'Appointments',  icon: '📅' },
-        { to: '/profile',      label: 'Profile',       icon: '👤' },
-    ],
-    doctor: [
-        { to: '/doctor',       label: 'Dashboard',     icon: '⊞' },
-        { to: '/alerts',       label: 'Alerts',        icon: '⚠️', badge: 'alerts' },
-        { to: '/reports',      label: 'Reports',       icon: '📋' },
-        { to: '/appointments', label: 'Appointments',  icon: '📅' },
-        { to: '/profile',      label: 'Profile',       icon: '👤' },
-    ],
-    patient: [
-        { to: '/patient',      label: 'Dashboard',     icon: '⊞' },
-        { to: '/reports',      label: 'My Reports',    icon: '📋' },
-        { to: '/appointments', label: 'Appointments',  icon: '📅' },
-        { to: '/profile',      label: 'Profile',       icon: '👤' },
-    ],
-};
-
-export default function Sidebar({ open }) {
-    const user       = useSelector(selectUser);
-    const stats      = useSelector(selectAlertStats);
-    const dispatch   = useDispatch();
-    const navigate   = useNavigate();
-    const items      = navItems[user?.role] ?? [];
-
-    const handleLogout = async () => {
-        await dispatch(logoutUser());
-        navigate('/login');
-    };
-
-    return (
-        <aside className={`${open ? 'w-64' : 'w-0 overflow-hidden'} transition-all duration-300 flex-shrink-0 bg-slate-900 dark:bg-slate-950 text-white flex flex-col`}>
-            {/* Logo */}
-            <div className="p-5 border-b border-slate-700">
-                <div className="flex items-center gap-2">
-                    <div className="w-8 h-8 bg-blue-600 rounded-lg flex items-center justify-center text-sm">❤</div>
-                    <div>
-                        <p className="font-bold text-sm leading-none">MediFlow</p>
-                        <p className="text-xs text-slate-400 capitalize">{user?.role} Portal</p>
-                    </div>
-                </div>
-            </div>
-
-            {/* Nav Items */}
-            <nav className="flex-1 p-4 space-y-1 overflow-y-auto">
-                {items.map((item) => {
-                    const badgeCount = item.badge === 'alerts' ? (stats?.unread ?? 0) : 0;
-                    return (
-                        <NavLink
-                            key={item.to}
-                            to={item.to}
-                            end={item.to === '/admin' || item.to === '/doctor' || item.to === '/patient'}
-                            className={({ isActive }) =>
-                                `flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium transition-colors ${
-                                    isActive
-                                        ? 'bg-blue-600 text-white'
-                                        : 'text-slate-300 hover:bg-slate-800 hover:text-white'
-                                }`
-                            }
-                        >
-                            <span>{item.icon}</span>
-                            <span className="flex-1">{item.label}</span>
-                            {badgeCount > 0 && (
-                                <span className="bg-red-500 text-white text-xs font-bold rounded-full w-5 h-5 flex items-center justify-center badge-pulse">
-                                    {badgeCount > 9 ? '9+' : badgeCount}
-                                </span>
-                            )}
-                        </NavLink>
-                    );
-                })}
-            </nav>
-
-            {/* User footer */}
-            <div className="p-4 border-t border-slate-700">
-                <div className="flex items-center gap-3 mb-3">
-                    <div className="w-8 h-8 bg-blue-600 rounded-full flex items-center justify-center text-sm font-bold">
-                        {user?.name?.[0]?.toUpperCase() ?? '?'}
-                    </div>
-                    <div className="flex-1 min-w-0">
-                        <p className="text-sm font-medium truncate">{user?.name}</p>
-                        <p className="text-xs text-slate-400 truncate">{user?.email}</p>
-                    </div>
-                </div>
-                <button
-                    onClick={handleLogout}
-                    className="w-full flex items-center gap-2 px-3 py-2 rounded-lg text-sm text-slate-300 hover:bg-red-600 hover:text-white transition-colors"
-                >
-                    <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2}
-                            d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" />
-                    </svg>
-                    Logout
                 </button>
             </div>
         </aside>
