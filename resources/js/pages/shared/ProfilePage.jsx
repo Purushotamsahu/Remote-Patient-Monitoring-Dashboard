@@ -7,6 +7,20 @@ import toast from 'react-hot-toast';
 const roleColors = { admin: 'from-slate-600 to-slate-800', doctor: 'from-blue-600 to-cyan-600', patient: 'from-emerald-600 to-teal-600' };
 const roleBadge  = { admin: 'bg-slate-100 dark:bg-slate-700 text-slate-700 dark:text-slate-300', doctor: 'bg-blue-100 dark:bg-blue-900/30 text-blue-700 dark:text-blue-300', patient: 'bg-emerald-100 dark:bg-emerald-900/30 text-emerald-700 dark:text-emerald-300' };
 
+// Format phone number to +91XXXXXXXXXX
+const formatPhoneNumber = (phone) => {
+    if (!phone) return '';
+    // Remove all non-digits and +
+    const cleaned = phone.replace(/[^\d+]/g, '').replace(/^\+/, '');
+    // If 10 digits, prepend +91
+    if (cleaned.length === 10) return `+91${cleaned}`;
+    // If 12 digits starting with 91, prepend +
+    if (cleaned.length === 12 && cleaned.startsWith('91')) return `+${cleaned}`;
+    // If already formatted with +91, return as is
+    if (phone.startsWith('+91') && cleaned.length === 12) return `+91${cleaned.slice(2)}`;
+    return phone;
+};
+
 export default function ProfilePage() {
     const dispatch = useDispatch();
     const user     = useSelector(selectUser);
@@ -20,6 +34,13 @@ export default function ProfilePage() {
 
     const handleProfile = async (e) => {
         e.preventDefault();
+
+        // Validate phone format
+        if (form.phone && !form.phone.match(/^\+91[6-9]\d{9}$/)) {
+            toast.error('Phone must be Indian format: +91 followed by 10 digits (6-9 start)');
+            return;
+        }
+
         setLoading(true);
         try {
             await api.put('/auth/profile', form);
@@ -76,10 +97,23 @@ export default function ProfilePage() {
                 ].map(({ label, name, type, placeholder }) => (
                     <div key={name}>
                         <label className="block text-xs font-semibold text-slate-600 dark:text-slate-400 uppercase tracking-wider mb-1.5">{label}</label>
-                        <input type={type} value={form[name]}
-                            onChange={(e) => setForm({ ...form, [name]: e.target.value })}
-                            className="input-base" placeholder={placeholder}
+                        <input
+                            type={type}
+                            value={form[name]}
+                            onChange={(e) => {
+                                let value = e.target.value;
+                                // For phone field, format as user types
+                                if (name === 'phone' && value) {
+                                    value = formatPhoneNumber(value);
+                                }
+                                setForm({ ...form, [name]: value });
+                            }}
+                            className="input-base"
+                            placeholder={placeholder}
                         />
+                        {name === 'phone' && form.phone && !form.phone.match(/^\+91[6-9]\d{9}$/) && (
+                            <p className="text-xs text-red-500 mt-1">Format: +91 followed by 10 digits (starting with 6-9)</p>
+                        )}
                     </div>
                 ))}
                 <div className="pt-1">

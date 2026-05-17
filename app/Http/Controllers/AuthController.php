@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Services\AuthService;
+use App\Helpers\PhoneHelper;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
@@ -21,7 +22,7 @@ class AuthController extends Controller
             'email'     => 'required|email|unique:mongodb.users,email',
             'password'  => 'required|string|min:8|confirmed',
             'role'      => 'sometimes|in:patient',  // Only patient can self-register
-            'phone'     => 'sometimes|string|max:20',
+            'phone'     => 'sometimes|string',
         ]);
 
         if ($validator->fails()) {
@@ -37,7 +38,19 @@ class AuthController extends Controller
         }
 
         try {
-            $result = $this->authService->register($validator->validated());
+            $data = $validator->validated();
+            // Format phone number with +91 prefix
+            if (!empty($data['phone'])) {
+                $data['phone'] = PhoneHelper::format($data['phone']);
+                if ($data['phone'] === null) {
+                    return response()->json([
+                        'success' => false,
+                        'errors' => ['phone' => ['Invalid phone number. Use Indian format (e.g., 9876543210 or +919876543210)']]
+                    ], 422);
+                }
+            }
+
+            $result = $this->authService->register($data);
             return response()->json([
                 'success' => true,
                 'message' => 'Registration successful.',
@@ -162,7 +175,7 @@ class AuthController extends Controller
     {
         $validator = Validator::make($request->all(), [
             'name'  => 'sometimes|string|max:255',
-            'phone' => 'sometimes|string|max:20',
+            'phone' => 'sometimes|string',
         ]);
 
         if ($validator->fails()) {
@@ -170,8 +183,20 @@ class AuthController extends Controller
         }
 
         try {
+            $data = $validator->validated();
+            // Format phone number with +91 prefix
+            if (!empty($data['phone'])) {
+                $data['phone'] = PhoneHelper::format($data['phone']);
+                if ($data['phone'] === null) {
+                    return response()->json([
+                        'success' => false,
+                        'errors' => ['phone' => ['Invalid phone number. Use Indian format (e.g., 9876543210 or +919876543210)']]
+                    ], 422);
+                }
+            }
+
             $user = $request->user();
-            $user->fill($validator->validated());
+            $user->fill($data);
             $user->save();
             return response()->json(['success' => true, 'message' => 'Profile updated.', 'data' => $user]);
         } catch (\Exception $e) {

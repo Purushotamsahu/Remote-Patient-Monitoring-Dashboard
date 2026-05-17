@@ -7,6 +7,7 @@ use App\Models\Patient;
 use App\Models\Alert;
 use App\Models\ActivityLog;
 use App\Models\Appointment;
+use App\Helpers\PhoneHelper;
 use App\Repositories\UserRepository;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
@@ -67,7 +68,7 @@ class AdminController extends Controller
     {
         $validator = Validator::make($request->all(), [
             'name'      => 'sometimes|string|max:255',
-            'phone'     => 'sometimes|string|max:20',
+            'phone'     => 'sometimes|string',
             'is_active' => 'sometimes|boolean',
             'role'      => 'sometimes|in:admin,doctor,patient',
         ]);
@@ -76,10 +77,27 @@ class AdminController extends Controller
             return response()->json(['success' => false, 'errors' => $validator->errors()], 422);
         }
 
-        $user = User::findOrFail($id);
-        $user->update($validator->validated());
+        try {
+            $data = $validator->validated();
 
-        return response()->json(['success' => true, 'data' => $user]);
+            // Format phone number with +91 prefix
+            if (!empty($data['phone'])) {
+                $data['phone'] = PhoneHelper::format($data['phone']);
+                if ($data['phone'] === null) {
+                    return response()->json([
+                        'success' => false,
+                        'errors' => ['phone' => ['Invalid phone number. Use Indian format (e.g., 9876543210 or +919876543210)']]
+                    ], 422);
+                }
+            }
+
+            $user = User::findOrFail($id);
+            $user->update($data);
+
+            return response()->json(['success' => true, 'data' => $user]);
+        } catch (\Exception $e) {
+            return response()->json(['success' => false, 'message' => $e->getMessage()], 500);
+        }
     }
 
     /**
@@ -226,7 +244,7 @@ class AdminController extends Controller
             'name'           => 'required|string|max:255',
             'email'          => 'required|email|unique:mongodb.users,email',
             'password'       => 'required|string|min:8',
-            'phone'          => 'sometimes|string|max:20',
+            'phone'          => 'sometimes|string',
             'medical_license' => 'required|string|max:50',
             'specialization' => 'required|string|max:100',
             'qualifications' => 'sometimes|string',
@@ -237,18 +255,31 @@ class AdminController extends Controller
         }
 
         try {
+            $data = $validator->validated();
+
+            // Format phone number with +91 prefix
+            if (!empty($data['phone'])) {
+                $data['phone'] = PhoneHelper::format($data['phone']);
+                if ($data['phone'] === null) {
+                    return response()->json([
+                        'success' => false,
+                        'errors' => ['phone' => ['Invalid phone number. Use Indian format (e.g., 9876543210 or +919876543210)']]
+                    ], 422);
+                }
+            }
+
             $doctor = User::create([
-                'name'                => $validator->validated()['name'],
-                'email'               => $validator->validated()['email'],
-                'password'            => $validator->validated()['password'],
-                'phone'               => $validator->validated()['phone'] ?? null,
+                'name'                => $data['name'],
+                'email'               => $data['email'],
+                'password'            => $data['password'],
+                'phone'               => $data['phone'] ?? null,
                 'role'                => 'doctor',
                 'is_active'           => true,
                 'is_verified'         => false,
                 'verification_status' => 'pending',
-                'medical_license'     => $validator->validated()['medical_license'],
-                'specialization'      => $validator->validated()['specialization'],
-                'qualifications'      => $validator->validated()['qualifications'] ?? null,
+                'medical_license'     => $data['medical_license'],
+                'specialization'      => $data['specialization'],
+                'qualifications'      => $data['qualifications'] ?? null,
             ]);
 
             // Send verification pending notification

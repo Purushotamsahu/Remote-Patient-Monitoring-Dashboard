@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Services\PatientService;
 use App\Repositories\PatientRepository;
+use App\Helpers\PhoneHelper;
 use App\Models\ActivityLog;
 use App\Models\User;
 use Illuminate\Http\JsonResponse;
@@ -45,7 +46,7 @@ class PatientController extends Controller
             'name'       => 'required|string|max:255',
             'email'      => 'required|email|unique:mongodb.users,email',
             'password'   => 'required|string|min:8',
-            'phone'      => 'sometimes|string|max:20',
+            'phone'      => 'sometimes|string',
             'age'        => 'required|integer|min:0|max:150',
             'gender'     => 'required|in:male,female,other',
             'blood_group'=> 'sometimes|string|max:5',
@@ -60,7 +61,19 @@ class PatientController extends Controller
             return response()->json(['success' => false, 'errors' => $validator->errors()], 422);
         }
 
-        $data    = $validator->validated();
+        $data = $validator->validated();
+
+        // Format phone number with +91 prefix
+        if (!empty($data['phone'])) {
+            $data['phone'] = PhoneHelper::format($data['phone']);
+            if ($data['phone'] === null) {
+                return response()->json([
+                    'success' => false,
+                    'errors' => ['phone' => ['Invalid phone number. Use Indian format (e.g., 9876543210 or +919876543210)']]
+                ], 422);
+            }
+        }
+
         $userData  = ['name' => $data['name'], 'email' => $data['email'], 'password' => $data['password'], 'phone' => $data['phone'] ?? null];
         $profileData = collect($data)->except(['name', 'email', 'password', 'phone'])->toArray();
 
