@@ -17,7 +17,7 @@ class User extends Model implements AuthenticatableContract, JWTSubject
 
     protected $fillable = [
         'name', 'email', 'password', 'role', 'avatar',
-        'phone', 'is_active', 'last_login',
+        'phone', 'is_active', 'last_login', 'google_id',
         'email_verified_at', 'password_reset_token', 'password_reset_expires_at',
     ];
 

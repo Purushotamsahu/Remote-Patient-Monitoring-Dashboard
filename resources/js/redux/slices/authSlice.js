@@ -68,6 +68,14 @@ const authSlice = createSlice({
     reducers: {
         clearError: (state) => { state.error = null; },
         setUser:    (state, action) => { state.user = action.payload; },
+        setCredentials: (state, action) => {
+            const { token, user } = action.payload;
+            state.token       = token;
+            state.user        = user;
+            state.initialized = true;
+            localStorage.setItem('mediflow_token', token);
+            // api header set in SocialCallbackPage after dispatch
+        },
     },
     extraReducers: (builder) => {
         // Login
@@ -88,7 +96,7 @@ const authSlice = createSlice({
     },
 });
 
-export const { clearError, setUser } = authSlice.actions;
+export const { clearError, setUser, setCredentials } = authSlice.actions;
 export default authSlice.reducer;
 
 // Selectors

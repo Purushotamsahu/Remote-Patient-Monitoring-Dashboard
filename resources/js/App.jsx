@@ -11,6 +11,7 @@ import AuthLayout      from './layouts/AuthLayout';
 import LoginPage          from './pages/auth/LoginPage';
 import RegisterPage       from './pages/auth/RegisterPage';
 import ForgotPasswordPage from './pages/auth/ForgotPasswordPage';
+import SocialCallbackPage from './pages/auth/SocialCallbackPage';
 
 // Dashboard Pages
 import AdminDashboard   from './pages/admin/AdminDashboard';
@@ -56,6 +57,9 @@ export default function App() {
                 <Route path="/register"        element={user ? <Navigate to={`/${user.role}`} replace /> : <RegisterPage />} />
                 <Route path="/forgot-password" element={<ForgotPasswordPage />} />
             </Route>
+
+            {/* OAuth callback — outside AuthLayout, no redirect guard */}
+            <Route path="/auth/social" element={<SocialCallbackPage />} />
 
             {/* Protected */}
             <Route element={<DashboardLayout />}>
