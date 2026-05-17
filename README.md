@@ -236,6 +236,4 @@ MIT License - feel free to use for learning or projects
 
 **MediFlow** - Healthcare made simple 🏥
 
-Questions? Check [TESTING_REPORT.md](TESTING_REPORT.md) or [PROJECT_REPORT.md](PROJECT_REPORT.md)
-
 </div>
