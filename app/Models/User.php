@@ -19,6 +19,8 @@ class User extends Model implements AuthenticatableContract, JWTSubject
         'name', 'email', 'password', 'role', 'avatar',
         'phone', 'is_active', 'last_login', 'google_id',
         'email_verified_at', 'password_reset_token', 'password_reset_expires_at',
+        'is_master_admin', 'is_verified', 'verification_status', 'medical_license',
+        'specialization', 'qualifications', 'verification_notes', 'verified_at', 'verified_by',
     ];
 
     protected $hidden = ['password', 'remember_token', 'password_reset_token'];
@@ -27,7 +29,10 @@ class User extends Model implements AuthenticatableContract, JWTSubject
         'email_verified_at'         => 'datetime',
         'last_login'                => 'datetime',
         'password_reset_expires_at' => 'datetime',
+        'verified_at'               => 'datetime',
         'is_active'                 => 'boolean',
+        'is_verified'               => 'boolean',
+        'is_master_admin'           => 'boolean',
         'password'                  => 'hashed',
     ];
 
@@ -59,4 +64,7 @@ class User extends Model implements AuthenticatableContract, JWTSubject
     public function isAdmin(): bool   { return $this->role === 'admin'; }
     public function isDoctor(): bool  { return $this->role === 'doctor'; }
     public function isPatient(): bool { return $this->role === 'patient'; }
+    public function isMasterAdmin(): bool { return $this->is_master_admin === true; }
+    public function isDoctorVerified(): bool { return $this->isDoctor() && $this->is_verified === true; }
+    public function isDoctorPending(): bool { return $this->isDoctor() && $this->verification_status === 'pending'; }
 }

@@ -17,6 +17,15 @@ const quickActions = [
         ),
     },
     {
+        to: '/admin/doctors/verify', label: 'Verify Doctors', desc: 'Review & approve doctor credentials',
+        gradient: 'from-amber-500 to-orange-600', shadow: 'shadow-amber-500/25',
+        icon: (
+            <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.8}>
+                <path strokeLinecap="round" strokeLinejoin="round" d="M9 12l2 2 4-4m7 0a9 9 0 11-18 0 9 9 0 0118 0z" />
+            </svg>
+        ),
+    },
+    {
         to: '/alerts', label: 'Manage Alerts', desc: 'Review & resolve patient alerts',
         gradient: 'from-red-500 to-rose-600', shadow: 'shadow-red-500/25',
         icon: (

@@ -216,4 +216,126 @@ class AdminController extends Controller
             // Log silently if notification fails
         }
     }
+
+    /**
+     * POST /admin/create-doctor — Create new doctor account (Admin only).
+     */
+    public function createDoctor(Request $request): JsonResponse
+    {
+        $validator = Validator::make($request->all(), [
+            'name'           => 'required|string|max:255',
+            'email'          => 'required|email|unique:mongodb.users,email',
+            'password'       => 'required|string|min:8',
+            'phone'          => 'sometimes|string|max:20',
+            'medical_license' => 'required|string|max:50',
+            'specialization' => 'required|string|max:100',
+            'qualifications' => 'sometimes|string',
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json(['success' => false, 'errors' => $validator->errors()], 422);
+        }
+
+        try {
+            $doctor = User::create([
+                'name'                => $validator->validated()['name'],
+                'email'               => $validator->validated()['email'],
+                'password'            => $validator->validated()['password'],
+                'phone'               => $validator->validated()['phone'] ?? null,
+                'role'                => 'doctor',
+                'is_active'           => true,
+                'is_verified'         => false,
+                'verification_status' => 'pending',
+                'medical_license'     => $validator->validated()['medical_license'],
+                'specialization'      => $validator->validated()['specialization'],
+                'qualifications'      => $validator->validated()['qualifications'] ?? null,
+            ]);
+
+            // Send verification pending notification
+            $this->createNotification($doctor->_id, 'Account Created - Pending Verification', 'system',
+                'Your doctor account has been created by admin. Please wait for verification.');
+
+            $this->logActivity((string)$request->user()->_id, 'create', 'doctor', (string)$doctor->_id,
+                "Doctor created: {$doctor->email} - License: {$doctor->medical_license}");
+
+            return response()->json([
+                'success' => true,
+                'message' => "Doctor account created. Verification status: pending",
+                'data'    => $doctor,
+            ], 201);
+        } catch (\Exception $e) {
+            return response()->json(['success' => false, 'message' => $e->getMessage()], 500);
+        }
+    }
+
+    /**
+     * GET /admin/pending-doctors — Get all pending doctor verifications.
+     */
+    public function getPendingDoctors(): JsonResponse
+    {
+        $doctors = User::where('role', 'doctor')
+            ->where('verification_status', 'pending')
+            ->select('_id', 'name', 'email', 'phone', 'medical_license', 'specialization', 'qualifications', 'created_at')
+            ->latest()
+            ->get();
+
+        return response()->json(['success' => true, 'data' => $doctors]);
+    }
+
+    /**
+     * POST /admin/verify-doctor — Verify doctor credentials.
+     */
+    public function verifyDoctor(Request $request): JsonResponse
+    {
+        $validator = Validator::make($request->all(), [
+            'doctor_id' => 'required|string',
+            'status'    => 'required|in:verified,rejected',
+            'notes'     => 'sometimes|string|max:500',
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json(['success' => false, 'errors' => $validator->errors()], 422);
+        }
+
+        try {
+            $doctor = User::where('role', 'doctor')->findOrFail($request->doctor_id);
+
+            if ($doctor->verification_status !== 'pending') {
+                return response()->json([
+                    'success' => false,
+                    'message' => "Doctor is already {$doctor->verification_status}.",
+                ], 422);
+            }
+
+            $doctor->update([
+                'verification_status' => $request->status,
+                'is_verified'         => $request->status === 'verified',
+                'verification_notes'  => $request->notes ?? null,
+                'verified_at'         => now(),
+                'verified_by'         => (string)$request->user()->_id,
+            ]);
+
+            // Notify doctor
+            if ($request->status === 'verified') {
+                $message = 'Congratulations! Your doctor account has been verified and is now active.';
+                $title = 'Account Verified ✅';
+            } else {
+                $message = "Your doctor account verification was rejected. Reason: " . ($request->notes ?? 'Not specified');
+                $title = 'Verification Rejected';
+            }
+
+            $this->createNotification($doctor->_id, $title, 'system', $message);
+
+            $this->logActivity((string)$request->user()->_id, 'verify', 'doctor', (string)$doctor->_id,
+                "Doctor {$request->status}: {$doctor->email}");
+
+            return response()->json([
+                'success' => true,
+                'message' => "Doctor {$request->status} successfully.",
+                'data'    => $doctor,
+            ]);
+        } catch (\Exception $e) {
+            return response()->json(['success' => false, 'message' => $e->getMessage()], 500);
+        }
+    }
 }

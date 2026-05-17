@@ -312,8 +312,8 @@ export default function PatientDashboard() {
             )}
 
             {/* Request Doctor Modal */}
-            <RequestDoctorModal 
-                isOpen={showRequestDoctor} 
+            <RequestDoctorModal
+                isOpen={showRequestDoctor}
                 onClose={() => setShowRequestDoctor(false)}
                 onSuccess={() => window.location.reload()}
             />

@@ -26,6 +26,17 @@ export default function AdminUsersManagement() {
     const [patients, setPatients] = useState([]);
     const [selectedDoctor, setSelectedDoctor] = useState(null);
     const [selectedPatient, setSelectedPatient] = useState(null);
+    const [showCreateDoctorModal, setShowCreateDoctorModal] = useState(false);
+    const [doctorForm, setDoctorForm] = useState({
+        name: '',
+        email: '',
+        password: '',
+        phone: '',
+        medical_license: '',
+        specialization: '',
+        qualifications: '',
+    });
+    const [creatingDoctor, setCreatingDoctor] = useState(false);
 
     useEffect(() => {
         loadUsers();
@@ -107,6 +118,34 @@ export default function AdminUsersManagement() {
         }
     };
 
+    const handleCreateDoctor = async (e) => {
+        e.preventDefault();
+        if (!doctorForm.medical_license || !doctorForm.specialization || !doctorForm.name || !doctorForm.email || !doctorForm.password) {
+            toast.error('Please fill all required fields');
+            return;
+        }
+        setCreatingDoctor(true);
+        try {
+            const res = await api.post('/admin/create-doctor', doctorForm);
+            toast.success('Doctor account created successfully! (Verification pending)');
+            setShowCreateDoctorModal(false);
+            setDoctorForm({
+                name: '',
+                email: '',
+                password: '',
+                phone: '',
+                medical_license: '',
+                specialization: '',
+                qualifications: '',
+            });
+            loadDoctors();
+        } catch (err) {
+            toast.error(err.response?.data?.errors?.email?.[0] ?? err.response?.data?.message ?? 'Creation failed');
+        } finally {
+            setCreatingDoctor(false);
+        }
+    };
+
     const getRoleColor = (role) => ROLES.find(r => r.value === role)?.color || 'bg-slate-100';
     const getRoleLabel = (role) => ROLES.find(r => r.value === role)?.label || role;
 
@@ -118,16 +157,25 @@ export default function AdminUsersManagement() {
                     <h1 className="page-title">Users Management</h1>
                     <p className="page-subtitle">Manage system users, assign roles, and link doctors to patients.</p>
                 </div>
-                <button
-                    onClick={() => {
-                        setShowAssignModal(true);
-                        loadPatients();
-                    }}
-                    className="btn btn-primary"
-                >
-                    <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4" /></svg>
-                    Assign Doctor to Patient
-                </button>
+                <div className="flex gap-2">
+                    <button
+                        onClick={() => setShowCreateDoctorModal(true)}
+                        className="btn btn-secondary"
+                    >
+                        <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4" /></svg>
+                        Create Doctor
+                    </button>
+                    <button
+                        onClick={() => {
+                            setShowAssignModal(true);
+                            loadPatients();
+                        }}
+                        className="btn btn-primary"
+                    >
+                        <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4" /></svg>
+                        Assign Doctor to Patient
+                    </button>
+                </div>
             </div>
 
             {/* Search & Filter */}
@@ -221,7 +269,7 @@ export default function AdminUsersManagement() {
                 <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4">
                     <div className="bg-white dark:bg-slate-900 rounded-2xl shadow-2xl max-w-md w-full p-6">
                         <h2 className="text-xl font-bold text-slate-900 dark:text-white mb-4">Assign Doctor to Patient</h2>
-                        
+
                         <div className="space-y-4">
                             <div>
                                 <label className="block text-sm font-semibold text-slate-600 dark:text-slate-300 mb-2">Select Patient</label>
@@ -285,7 +333,7 @@ export default function AdminUsersManagement() {
                     <div className="bg-white dark:bg-slate-900 rounded-2xl shadow-2xl max-w-md w-full p-6">
                         <h2 className="text-xl font-bold text-slate-900 dark:text-white mb-4">Change Role</h2>
                         <p className="text-sm text-slate-600 dark:text-slate-400 mb-4">User: <strong>{selectedUser.name}</strong></p>
-                        
+
                         <select
                             value={newRole}
                             onChange={(e) => setNewRole(e.target.value)}
@@ -314,6 +362,129 @@ export default function AdminUsersManagement() {
                                 Update
                             </button>
                         </div>
+                    </div>
+                </div>
+            )}
+
+            {/* Create Doctor Modal */}
+            {showCreateDoctorModal && (
+                <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4">
+                    <div className="bg-white dark:bg-slate-900 rounded-2xl shadow-2xl max-w-2xl w-full p-6 max-h-[90vh] overflow-y-auto">
+                        <h2 className="text-xl font-bold text-slate-900 dark:text-white mb-4">Create Doctor Account</h2>
+
+                        <form onSubmit={handleCreateDoctor} className="space-y-4">
+                            <div className="grid grid-cols-2 gap-4">
+                                <div>
+                                    <label className="block text-sm font-semibold text-slate-600 dark:text-slate-300 mb-1">Full Name *</label>
+                                    <input
+                                        type="text"
+                                        required
+                                        value={doctorForm.name}
+                                        onChange={(e) => setDoctorForm({...doctorForm, name: e.target.value})}
+                                        className="input-base w-full"
+                                        placeholder="Dr. John Doe"
+                                    />
+                                </div>
+                                <div>
+                                    <label className="block text-sm font-semibold text-slate-600 dark:text-slate-300 mb-1">Email *</label>
+                                    <input
+                                        type="email"
+                                        required
+                                        value={doctorForm.email}
+                                        onChange={(e) => setDoctorForm({...doctorForm, email: e.target.value})}
+                                        className="input-base w-full"
+                                        placeholder="doctor@hospital.com"
+                                    />
+                                </div>
+                            </div>
+
+                            <div className="grid grid-cols-2 gap-4">
+                                <div>
+                                    <label className="block text-sm font-semibold text-slate-600 dark:text-slate-300 mb-1">Password *</label>
+                                    <input
+                                        type="password"
+                                        required
+                                        value={doctorForm.password}
+                                        onChange={(e) => setDoctorForm({...doctorForm, password: e.target.value})}
+                                        className="input-base w-full"
+                                        placeholder="••••••••"
+                                    />
+                                </div>
+                                <div>
+                                    <label className="block text-sm font-semibold text-slate-600 dark:text-slate-300 mb-1">Phone</label>
+                                    <input
+                                        type="tel"
+                                        value={doctorForm.phone}
+                                        onChange={(e) => setDoctorForm({...doctorForm, phone: e.target.value})}
+                                        className="input-base w-full"
+                                        placeholder="+1 (555) 000-0000"
+                                    />
+                                </div>
+                            </div>
+
+                            <div className="grid grid-cols-2 gap-4">
+                                <div>
+                                    <label className="block text-sm font-semibold text-slate-600 dark:text-slate-300 mb-1">Medical License *</label>
+                                    <input
+                                        type="text"
+                                        required
+                                        value={doctorForm.medical_license}
+                                        onChange={(e) => setDoctorForm({...doctorForm, medical_license: e.target.value})}
+                                        className="input-base w-full"
+                                        placeholder="LICENSE123456"
+                                    />
+                                </div>
+                                <div>
+                                    <label className="block text-sm font-semibold text-slate-600 dark:text-slate-300 mb-1">Specialization *</label>
+                                    <input
+                                        type="text"
+                                        required
+                                        value={doctorForm.specialization}
+                                        onChange={(e) => setDoctorForm({...doctorForm, specialization: e.target.value})}
+                                        className="input-base w-full"
+                                        placeholder="Cardiology"
+                                    />
+                                </div>
+                            </div>
+
+                            <div>
+                                <label className="block text-sm font-semibold text-slate-600 dark:text-slate-300 mb-1">Qualifications</label>
+                                <textarea
+                                    value={doctorForm.qualifications}
+                                    onChange={(e) => setDoctorForm({...doctorForm, qualifications: e.target.value})}
+                                    className="input-base w-full resize-none"
+                                    placeholder="MD, Board Certified in Cardiology..."
+                                    rows={2}
+                                />
+                            </div>
+
+                            <div className="bg-blue-50 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-800 p-3 rounded-lg">
+                                <p className="text-sm text-blue-900 dark:text-blue-200">
+                                    <strong>Status:</strong> Doctor will be created with <code className="text-xs bg-blue-200 dark:bg-blue-800 px-1 rounded">verification_status = pending</code>
+                                </p>
+                                <p className="text-sm text-blue-900 dark:text-blue-200 mt-1">
+                                    Admin must verify credentials before doctor can access the system.
+                                </p>
+                            </div>
+
+                            <div className="flex gap-3">
+                                <button
+                                    type="button"
+                                    onClick={() => setShowCreateDoctorModal(false)}
+                                    className="flex-1 btn btn-secondary"
+                                    disabled={creatingDoctor}
+                                >
+                                    Cancel
+                                </button>
+                                <button
+                                    type="submit"
+                                    className="flex-1 btn btn-primary"
+                                    disabled={creatingDoctor}
+                                >
+                                    {creatingDoctor ? 'Creating...' : 'Create Doctor Account'}
+                                </button>
+                            </div>
+                        </form>
                     </div>
                 </div>
             )}

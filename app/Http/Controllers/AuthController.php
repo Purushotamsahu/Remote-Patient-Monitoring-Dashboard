@@ -20,12 +20,20 @@ class AuthController extends Controller
             'name'      => 'required|string|max:255',
             'email'     => 'required|email|unique:mongodb.users,email',
             'password'  => 'required|string|min:8|confirmed',
-            'role'      => 'sometimes|in:doctor,patient',
+            'role'      => 'sometimes|in:patient',  // Only patient can self-register
             'phone'     => 'sometimes|string|max:20',
         ]);
 
         if ($validator->fails()) {
             return response()->json(['success' => false, 'errors' => $validator->errors()], 422);
+        }
+
+        // Prevent doctor registration - only admin can create doctors
+        if ($request->get('role') === 'doctor') {
+            return response()->json([
+                'success' => false,
+                'message' => 'Doctors cannot self-register. Please contact admin for doctor account creation.'
+            ], 403);
         }
 
         try {
@@ -62,6 +70,16 @@ class AuthController extends Controller
                 $validator->validated(),
                 $request->ip()
             );
+
+            // Check if doctor is verified
+            if ($result['user']->isDoctor() && !$result['user']->isDoctorVerified()) {
+                return response()->json([
+                    'success' => false,
+                    'message' => 'Doctor account pending verification. Admin will verify your credentials shortly. You will receive an email once approved.',
+                    'verification_status' => $result['user']->verification_status,
+                ], 403);
+            }
+
             return response()->json([
                 'success' => true,
                 'message' => 'Login successful.',

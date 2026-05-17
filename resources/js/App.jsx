@@ -16,6 +16,7 @@ import SocialCallbackPage from './pages/auth/SocialCallbackPage';
 // Dashboard Pages
 import AdminDashboard   from './pages/admin/AdminDashboard';
 import AdminUsersManagement from './pages/admin/AdminUsersManagement';
+import DoctorVerificationPage from './pages/admin/DoctorVerificationPage';
 import DoctorDashboard  from './pages/doctor/DoctorDashboard';
 import PatientDashboard from './pages/patient/PatientDashboard';
 import PatientDetail    from './pages/doctor/PatientDetail';
@@ -74,6 +75,11 @@ export default function App() {
                 <Route path="/admin/users" element={
                     <PrivateRoute roles={['admin']}>
                         <AdminUsersManagement />
+                    </PrivateRoute>
+                } />
+                <Route path="/admin/doctors/verify" element={
+                    <PrivateRoute roles={['admin']}>
+                        <DoctorVerificationPage />
                     </PrivateRoute>
                 } />
 

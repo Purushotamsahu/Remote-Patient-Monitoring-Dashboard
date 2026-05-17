@@ -49,6 +49,9 @@ Route::middleware('jwt.auth')->group(function () {
         Route::get('doctors',        [AdminController::class, 'getDoctors']);
         Route::post('assign-doctor', [AdminController::class, 'assignDoctor']);
         Route::post('unassign-doctor', [AdminController::class, 'unassignDoctor']);
+        Route::post('create-doctor', [AdminController::class, 'createDoctor']);
+        Route::get('pending-doctors', [AdminController::class, 'getPendingDoctors']);
+        Route::post('verify-doctor', [AdminController::class, 'verifyDoctor']);
     });
 
     // ── Patients ─────────────────────────────────────────────────────────────

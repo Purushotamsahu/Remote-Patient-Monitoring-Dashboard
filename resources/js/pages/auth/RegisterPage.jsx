@@ -56,22 +56,15 @@ export default function RegisterPage() {
                 <InputField label="Confirm Password"      name="password_confirmation" type="password" placeholder="••••••••"         form={form} setForm={setForm} />
 
                 <div>
-                    <label className="block text-xs font-semibold text-slate-600 dark:text-slate-400 uppercase tracking-wider mb-1.5">Your Role</label>
-                    <div className="grid grid-cols-2 gap-2">
-                        {['patient', 'doctor'].map((r) => (
-                            <button
-                                key={r}
-                                type="button"
-                                onClick={() => setForm({ ...form, role: r })}
-                                className={`py-2.5 rounded-xl text-sm font-semibold border-2 transition-all ${
-                                    form.role === r
-                                        ? 'border-blue-600 bg-blue-600 text-white shadow-md shadow-blue-500/20'
-                                        : 'border-slate-200 dark:border-slate-600 text-slate-600 dark:text-slate-300 hover:border-blue-300'
-                                }`}
-                            >
-                                {r === 'patient' ? '🏥 Patient' : '🩺 Doctor'}
-                            </button>
-                        ))}
+                    <label className="block text-xs font-semibold text-slate-600 dark:text-slate-400 uppercase tracking-wider mb-1.5">Account Type</label>
+                    <div className="p-4 bg-blue-50 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-800 rounded-lg">
+                        <p className="text-sm text-blue-900 dark:text-blue-200">
+                            <strong>Patient Account</strong><br/>
+                            Monitor your health with real-time vitals and AI insights.
+                        </p>
+                        <p className="text-xs text-blue-700 dark:text-blue-300 mt-2">
+                            💡 <strong>Doctor?</strong> Contact admin to create your verified doctor account.
+                        </p>
                     </div>
                 </div>
 
