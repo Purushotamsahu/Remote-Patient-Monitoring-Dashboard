@@ -98,7 +98,7 @@ export default function LoginPage() {
 
             {/* Google Sign-In */}
             <a
-                href="http://localhost:8000/auth/google"
+                href={`${import.meta.env.VITE_BACKEND_URL ?? 'http://localhost:8000'}/auth/google`}
                 className="flex items-center justify-center gap-3 w-full py-2.5 px-4 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl text-sm font-semibold text-slate-700 dark:text-slate-200 hover:bg-slate-50 dark:hover:bg-slate-700 transition-colors shadow-sm"
             >
                 {/* Google G logo */}

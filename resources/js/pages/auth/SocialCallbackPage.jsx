@@ -21,12 +21,14 @@ export default function SocialCallbackPage() {
             return;
         }
 
-        // Set auth header then fetch full user profile
-        api.defaults.headers.common['Authorization'] = `Bearer ${token}`;
+        // Store token and set API header FIRST
         localStorage.setItem('mediflow_token', token);
+        api.defaults.headers.common['Authorization'] = `Bearer ${token}`;
 
-        dispatch(setCredentials({ token, user: null }));
+        // Mark as not-yet-initialized so PrivateRoute shows spinner
+        dispatch(setCredentials({ token }));
 
+        // Fetch full user profile
         dispatch(fetchMe())
             .unwrap()
             .then((user) => {

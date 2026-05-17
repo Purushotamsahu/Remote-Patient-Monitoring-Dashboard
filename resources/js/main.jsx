@@ -13,8 +13,10 @@ import '../css/app.css';
 const dark = localStorage.getItem('mediflow_dark') === 'true';
 if (dark) document.documentElement.classList.add('dark');
 
-// Prefetch user on load
-store.dispatch(fetchMe());
+// Prefetch user on load — only if a token exists in storage
+if (localStorage.getItem('mediflow_token')) {
+    store.dispatch(fetchMe());
+}
 
 // Register service worker for PWA
 if ('serviceWorker' in navigator) {

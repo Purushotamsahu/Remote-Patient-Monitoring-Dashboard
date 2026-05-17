@@ -59,22 +59,23 @@ export const logoutUser = createAsyncThunk('auth/logout', async (_, { rejectWith
 const authSlice = createSlice({
     name: 'auth',
     initialState: {
-        user:    null,
-        token:   localStorage.getItem('mediflow_token') ?? null,
-        loading: false,
-        error:   null,
-        initialized: false,
+        user:        null,
+        token:       localStorage.getItem('mediflow_token') ?? null,
+        loading:     false,
+        error:       null,
+        // If no token exists there's nothing to fetch — start as initialized
+        initialized: !localStorage.getItem('mediflow_token'),
     },
     reducers: {
         clearError: (state) => { state.error = null; },
         setUser:    (state, action) => { state.user = action.payload; },
+        // Used by OAuth callback: store token and mark NOT yet initialized
+        // so PrivateRoute keeps showing the spinner until fetchMe completes
         setCredentials: (state, action) => {
-            const { token, user } = action.payload;
+            const { token } = action.payload;
             state.token       = token;
-            state.user        = user;
-            state.initialized = true;
+            state.initialized = false;
             localStorage.setItem('mediflow_token', token);
-            // api header set in SocialCallbackPage after dispatch
         },
     },
     extraReducers: (builder) => {
