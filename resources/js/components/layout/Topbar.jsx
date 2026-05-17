@@ -70,7 +70,7 @@ export default function Topbar({ onToggleSidebar }) {
 
             {/* Notifications bell */}
             <Link
-                to="/profile"
+                to="/notifications"
                 className="relative p-2 rounded-xl text-slate-500 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors"
                 title="Notifications"
             >

@@ -21,6 +21,7 @@ import PatientDetail    from './pages/doctor/PatientDetail';
 import AlertsPage       from './pages/shared/AlertsPage';
 import ReportsPage      from './pages/shared/ReportsPage';
 import AppointmentsPage from './pages/shared/AppointmentsPage';
+import NotificationsPage from './pages/shared/NotificationsPage';
 import ProfilePage      from './pages/shared/ProfilePage';
 import NotFoundPage     from './pages/NotFoundPage';
 import LandingPage      from './pages/LandingPage';
@@ -93,6 +94,11 @@ export default function App() {
                 <Route path="/alerts" element={
                     <PrivateRoute>
                         <AlertsPage />
+                    </PrivateRoute>
+                } />
+                <Route path="/notifications" element={
+                    <PrivateRoute>
+                        <NotificationsPage />
                     </PrivateRoute>
                 } />
                 <Route path="/reports" element={
