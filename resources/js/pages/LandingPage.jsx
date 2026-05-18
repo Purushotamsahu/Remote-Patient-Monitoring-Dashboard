@@ -93,9 +93,9 @@ export default function LandingPage() {
                 scrolled ? 'bg-white/95 backdrop-blur-md shadow-sm border-b border-slate-100' : 'bg-transparent'
             }`}>
                 <div className="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
-                    <Link to="/" className="flex items-center gap-2.5 hover:opacity-80 transition-opacity">
-                        <div className="p-1.5 bg-gradient-to-br from-blue-100 to-blue-200 rounded-full shadow-lg hover:shadow-xl transition-shadow">
-                            <img src="/images/mediflow-logo.jpg" alt="MediFlow" className="w-9 h-9 rounded-full object-cover" />
+                    <Link to="/" className="flex items-center gap-2.5 hover:opacity-85 transition-opacity">
+                        <div className="flex items-center justify-center p-2 bg-gradient-to-br from-blue-100 via-white to-blue-100 rounded-full shadow-lg ring-2 ring-blue-300 hover:shadow-xl transition-all duration-300">
+                            <img src="/images/mediflow-logo.jpg" alt="MediFlow" className="w-9 h-9 rounded-full object-cover object-center" />
                         </div>
                         <div>
                             <p className={`font-bold text-lg leading-none tracking-tight ${scrolled ? 'text-slate-900' : 'text-white'}`}>MediFlow</p>

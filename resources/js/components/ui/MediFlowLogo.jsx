@@ -3,7 +3,7 @@ import React from 'react';
 /**
  * MediFlow Logo Component
  * Displays the official MediFlow medical cross logo with heart and arrow design
- * 
+ *
  * Props:
  * - size: 'sm' (24px), 'md' (32px), 'lg' (48px), 'xl' (64px), '2xl' (80px), 'full' - default 'md'
  * - variant: 'icon' (image only), 'text' (image + text), 'text-only' - default 'icon'
@@ -63,20 +63,21 @@ export default function MediFlowLogo({
     `.trim();
 
     const logoClasses = `
-        ${sizeMap[size]} 
+        ${sizeMap[size]}
         ${shapeMap[shape]}
         object-cover
+        object-center
         transition-all duration-300
         ${interactive ? 'hover:scale-110 hover:shadow-lg cursor-pointer' : ''}
-        ${withBg ? 'bg-gradient-to-br from-blue-50 to-blue-100 dark:from-slate-800 dark:to-slate-700 p-1' : ''}
-        ${withBorder ? 'border-2 border-blue-200 dark:border-blue-800' : 'shadow-md dark:shadow-xl'}
+        ${withBorder ? 'border-2 border-blue-200 dark:border-blue-800' : ''}
+        shadow-md dark:shadow-xl
     `.replace(/\s+/g, ' ').trim();
 
     return (
         <div className={containerClasses}>
             {/* Logo Image */}
             {(variant === 'icon' || variant === 'text') && (
-                <div className={`${withBg ? 'p-1.5 bg-white dark:bg-slate-900 rounded-full shadow-lg' : ''} transition-all duration-300`}>
+                <div className={`flex items-center justify-center ${withBg ? 'p-2 bg-gradient-to-br from-blue-50 via-white to-blue-50 dark:from-slate-800 dark:via-slate-900 dark:to-slate-800 rounded-full shadow-lg ring-2 ring-blue-200 dark:ring-blue-900/50' : 'rounded-full'} transition-all duration-300`}>
                     <img
                         src="/images/mediflow-logo.jpg"
                         alt="MediFlow"
