@@ -40,8 +40,10 @@ export default function Topbar({ onToggleSidebar }) {
             </button>
 
             {/* Brand with Logo */}
-            <Link to="/" className="hidden md:flex items-center gap-2 ml-1">
-                <img src="/images/mediflow-logo.jpg" alt="MediFlow" className="w-8 h-8 rounded-lg object-cover shadow-md" />
+            <Link to="/" className="hidden md:flex items-center gap-3 ml-1 hover:opacity-80 transition-opacity">
+                <div className="p-1.5 bg-gradient-to-br from-blue-50 to-blue-100 dark:from-slate-800 dark:to-slate-700 rounded-full shadow-md hover:shadow-lg transition-shadow">
+                    <img src="/images/mediflow-logo.jpg" alt="MediFlow" className="w-8 h-8 rounded-full object-cover" />
+                </div>
                 <span className="font-black text-slate-900 dark:text-white text-sm tracking-tight">MediFlow</span>
             </Link>
 
