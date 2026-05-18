@@ -31,6 +31,15 @@ class AuthService
             'is_active' => true,
         ]);
 
+        // Create patient profile if registering as patient
+        if ($user->isPatient()) {
+            \App\Models\Patient::create([
+                'user_id'    => (string) $user->_id,
+                'is_critical' => false,
+            ]);
+            $user->load('patientProfile');
+        }
+
         $token = JWTAuth::fromUser($user);
 
         $this->logActivity($user->id, 'register', 'user', $user->id, "User registered: {$user->email}");
@@ -51,6 +60,11 @@ class AuthService
 
         if (!$user->is_active) {
             throw new \Exception('Account is deactivated. Please contact support.', 403);
+        }
+
+        // Load patient profile for patients
+        if ($user->isPatient()) {
+            $user->load('patientProfile');
         }
 
         $user->update(['last_login' => now()]);
