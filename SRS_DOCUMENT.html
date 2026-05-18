@@ -1,0 +1,1349 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Software Requirements Specification (SRS) - MediFlow</title>
+    <style>
+        body {
+            font-family: "Times New Roman", Times, serif;
+            font-size: 11pt;
+            line-height: 1.4;
+            color: #000000;
+            margin: 0;
+            padding: 0;
+            background-color: #f0f0f0;
+        }
+        .page-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 15px;
+        }
+        .page {
+            background-color: #ffffff;
+            width: 8.5in;
+            height: 11.0in;
+            padding: 0.8in 0.8in;
+            box-sizing: border-box;
+            box-shadow: 0 0 8px rgba(0,0,0,0.1);
+            margin-bottom: 15px;
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+        .page-header {
+            font-size: 9pt;
+            font-family: "Times New Roman", Times, serif;
+            border-bottom: 1px solid #cccccc;
+            padding-bottom: 3px;
+            margin-bottom: 8px;
+            display: flex;
+            justify-content: space-between;
+        }
+        .page-header-title {
+            font-weight: bold;
+        }
+        .page-footer {
+            font-size: 9pt;
+            font-family: "Times New Roman", Times, serif;
+            border-top: 1px solid #cccccc;
+            padding-top: 3px;
+            margin-top: 8px;
+            display: flex;
+            justify-content: space-between;
+        }
+        .page-content {
+            flex-grow: 1;
+            overflow: hidden;
+            text-align: justify;
+        }
+        h1, h2, h3, h4 {
+            font-family: "Times New Roman", Times, serif;
+            color: #000000;
+            margin-top: 0;
+            page-break-after: avoid;
+        }
+        h1 {
+            font-size: 13pt;
+            font-weight: bold;
+            margin-bottom: 8px;
+            text-transform: uppercase;
+        }
+        h2 {
+            font-size: 12pt;
+            font-weight: bold;
+            margin-bottom: 6px;
+            margin-top: 10px;
+        }
+        h3 {
+            font-size: 11pt;
+            font-weight: bold;
+            margin-bottom: 4px;
+            margin-top: 8px;
+        }
+        p {
+            margin-top: 0;
+            margin-bottom: 6px;
+            font-size: 11pt;
+        }
+        ul, ol {
+            margin-top: 0;
+            margin-bottom: 6px;
+            padding-left: 15px;
+            font-size: 11pt;
+        }
+        li {
+            margin-bottom: 2px;
+        }
+        .center-align {
+            text-align: center;
+        }
+        .toc-table {
+            width: 100%;
+            border-collapse: collapse;
+            border: none;
+        }
+        .toc-table td {
+            border: none;
+            padding: 1px 0;
+            vertical-align: bottom;
+            font-size: 10.5pt;
+        }
+        .toc-dots {
+            color: #555555;
+            font-family: "Courier New", Courier, monospace;
+            font-size: 9.5pt;
+            letter-spacing: 1px;
+            overflow: hidden;
+            white-space: nowrap;
+        }
+        .toc-page {
+            text-align: right;
+            font-weight: bold;
+            width: 30px;
+        }
+        .toc-indent {
+            padding-left: 15px !important;
+        }
+        .toc-double-indent {
+            padding-left: 30px !important;
+        }
+        .data-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 5px;
+            margin-bottom: 5px;
+        }
+        .data-table th, .data-table td {
+            border: 1px solid #000000;
+            padding: 3px 5px;
+            font-size: 9pt;
+            text-align: left;
+        }
+        .data-table th {
+            background-color: #f2f2f2;
+            font-weight: bold;
+        }
+        .diagram-box {
+            font-family: "Consolas", "Courier New", Courier, monospace;
+            font-size: 8pt;
+            background-color: #ffffff;
+            border: 1px solid #000000;
+            padding: 3px;
+            white-space: pre;
+            margin-top: 3px;
+            margin-bottom: 3px;
+            line-height: 1.1;
+        }
+        .cover-title {
+            font-size: 18pt;
+            font-weight: bold;
+            margin-top: 130px;
+            margin-bottom: 25px;
+            text-transform: uppercase;
+        }
+        .cover-subtitle {
+            font-size: 14pt;
+            font-weight: bold;
+            margin-bottom: 60px;
+        }
+        .cover-details {
+            font-size: 11pt;
+            margin-top: 50px;
+            line-height: 1.5;
+        }
+        .cover-footer {
+            font-size: 10.5pt;
+            margin-top: 150px;
+            line-height: 1.3;
+        }
+        .bold {
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+
+<div class="page-container">
+
+    <!-- PAGE 1: COVER PAGE -->
+    <div class="page" id="page-1">
+        <div class="page-header" style="border: none;">
+            <div></div>
+            <div class="page-header-title">Project Name: MediFlow</div>
+        </div>
+        
+        <div class="page-content center-align">
+            <div class="cover-title">Project Name: MediFlow</div>
+            <div class="cover-subtitle">Software Requirements Specification</div>
+            
+            <div class="cover-details">
+                <span class="bold">Course Code:</span> CS-402<br>
+                <span class="bold">Course Name:</span> Software Engineering & Systems Design
+            </div>
+            
+            <div class="cover-details" style="margin-top: 30px;">
+                <span class="bold">Student Name:</span> Shivam Kumar<br>
+                <span class="bold">Student Registration Number:</span> 12112447
+            </div>
+            
+            <div class="cover-footer">
+                Prepared for<br>
+                Continuous Assessment 3<br>
+                Spring 2025
+            </div>
+        </div>
+        
+        <div class="page-footer" style="border: none;">
+            <div></div>
+            <div></div>
+        </div>
+    </div>
+
+    <!-- PAGE 2: REVISION HISTORY -->
+    <div class="page" id="page-2">
+        <div class="page-header">
+            <div class="page-header-title">Project Name: MediFlow</div>
+            <div></div>
+        </div>
+        
+        <div class="page-content">
+            <h1 class="center-align" style="font-size: 14pt; margin-top: 15px; margin-bottom: 20px;">Revision History</h1>
+            <p>The following table tracks the iterative modifications made to this document to ensure alignment with academic CA3 requirements.</p>
+            
+            <table class="data-table" style="margin-top: 20px; font-size: 10pt;">
+                <thead>
+                    <tr>
+                        <th style="width: 15%;">Date</th>
+                        <th style="width: 10%;">Version</th>
+                        <th style="width: 55%;">Description</th>
+                        <th style="width: 20%;">Author</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>May 10, 2024</td>
+                        <td>1.0.0</td>
+                        <td>Initial system boundary definitions and REST routing proposals.</td>
+                        <td>Shivam Kumar</td>
+                    </tr>
+                    <tr>
+                        <td>October 15, 2024</td>
+                        <td>1.5.0</td>
+                        <td>Added doctor verification layouts and medical telemetry database structures.</td>
+                        <td>Shivam Kumar</td>
+                    </tr>
+                    <tr>
+                        <td>March 18, 2025</td>
+                        <td>2.0.0</td>
+                        <td>Integrated Gemini 2.5 Flash summary layouts and Laravel Reverb configurations.</td>
+                        <td>Shivam Kumar</td>
+                    </tr>
+                    <tr>
+                        <td>May 18, 2026</td>
+                        <td>3.0.0</td>
+                        <td>Finalized brief, precise, academic 18-page layout for CA3 submission.</td>
+                        <td>Shivam Kumar</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        
+        <div class="page-footer">
+            <div>Software Requirements Specification</div>
+            <div>Page ii</div>
+        </div>
+    </div>
+
+    <!-- PAGE 3: TABLE OF CONTENTS (PART 1) -->
+    <div class="page" id="page-3">
+        <div class="page-header">
+            <div class="page-header-title">Project Name: MediFlow</div>
+            <div></div>
+        </div>
+        
+        <div class="page-content">
+            <h1 class="center-align" style="font-size: 13pt; margin-bottom: 20px;">Table of Contents</h1>
+            
+            <table class="toc-table">
+                <tr>
+                    <td class="bold">REVISION HISTORY</td>
+                    <td class="toc-dots">......................................................................................................................</td>
+                    <td class="toc-page">ii</td>
+                </tr>
+                <tr>
+                    <td class="bold">1. INTRODUCTION</td>
+                    <td class="toc-dots">......................................................................................................................</td>
+                    <td class="toc-page">1</td>
+                </tr>
+                <tr>
+                    <td class="toc-indent">1.1 PURPOSE</td>
+                    <td class="toc-dots">......................................................................................................................</td>
+                    <td class="toc-page">1</td>
+                </tr>
+                <tr>
+                    <td class="toc-indent">1.2 SCOPE</td>
+                    <td class="toc-dots">......................................................................................................................</td>
+                    <td class="toc-page">1</td>
+                </tr>
+                <tr>
+                    <td class="toc-indent">1.3 DEFINITIONS, ACRONYMS, AND ABBREVIATIONS</td>
+                    <td class="toc-dots">......................................................................................................................</td>
+                    <td class="toc-page">1</td>
+                </tr>
+                <tr>
+                    <td class="toc-indent">1.4 REFERENCES</td>
+                    <td class="toc-dots">......................................................................................................................</td>
+                    <td class="toc-page">2</td>
+                </tr>
+                <tr>
+                    <td class="toc-indent">1.5 OVERVIEW</td>
+                    <td class="toc-dots">......................................................................................................................</td>
+                    <td class="toc-page">2</td>
+                </tr>
+                <tr>
+                    <td class="bold" style="padding-top: 6px;">2. GENERAL DESCRIPTION</td>
+                    <td class="toc-dots" style="padding-top: 6px;">......................................................................................................................</td>
+                    <td class="toc-page" style="padding-top: 6px;">3</td>
+                </tr>
+                <tr>
+                    <td class="toc-indent">2.1 PRODUCT PERSPECTIVE</td>
+                    <td class="toc-dots">......................................................................................................................</td>
+                    <td class="toc-page">3</td>
+                </tr>
+                <tr>
+                    <td class="toc-indent">2.2 PRODUCT FUNCTIONS</td>
+                    <td class="toc-dots">......................................................................................................................</td>
+                    <td class="toc-page">3</td>
+                </tr>
+                <tr>
+                    <td class="toc-indent">2.3 USER CHARACTERISTICS</td>
+                    <td class="toc-dots">......................................................................................................................</td>
+                    <td class="toc-page">4</td>
+                </tr>
+                <tr>
+                    <td class="toc-indent">2.4 GENERAL CONSTRAINTS</td>
+                    <td class="toc-dots">......................................................................................................................</td>
+                    <td class="toc-page">4</td>
+                </tr>
+                <tr>
+                    <td class="toc-indent">2.5 ASSUMPTIONS AND DEPENDENCIES</td>
+                    <td class="toc-dots">......................................................................................................................</td>
+                    <td class="toc-page">4</td>
+                </tr>
+                <tr>
+                    <td class="bold" style="padding-top: 6px;">3. SPECIFIC REQUIREMENTS</td>
+                    <td class="toc-dots" style="padding-top: 6px;">......................................................................................................................</td>
+                    <td class="toc-page" style="padding-top: 6px;">5</td>
+                </tr>
+                <tr>
+                    <td class="toc-indent">3.1 EXTERNAL INTERFACE REQUIREMENTS</td>
+                    <td class="toc-dots">......................................................................................................................</td>
+                    <td class="toc-page">5</td>
+                </tr>
+                <tr>
+                    <td class="toc-double-indent">3.1.1 User Interfaces</td>
+                    <td class="toc-dots">......................................................................................................................</td>
+                    <td class="toc-page">5</td>
+                </tr>
+                <tr>
+                    <td class="toc-double-indent">3.1.2 Hardware Interfaces</td>
+                    <td class="toc-dots">......................................................................................................................</td>
+                    <td class="toc-page">5</td>
+                </tr>
+                <tr>
+                    <td class="toc-double-indent">3.1.3 Software Interfaces</td>
+                    <td class="toc-dots">......................................................................................................................</td>
+                    <td class="toc-page">6</td>
+                </tr>
+                <tr>
+                    <td class="toc-double-indent">3.1.4 Communications Interfaces</td>
+                    <td class="toc-dots">......................................................................................................................</td>
+                    <td class="toc-page">6</td>
+                </tr>
+            </table>
+        </div>
+        
+        <div class="page-footer">
+            <div>Software Requirements Specification</div>
+            <div>Page iii</div>
+        </div>
+    </div>
+
+    <!-- PAGE 4: TABLE OF CONTENTS (PART 2) -->
+    <div class="page" id="page-4">
+        <div class="page-header">
+            <div class="page-header-title">Project Name: MediFlow</div>
+            <div></div>
+        </div>
+        
+        <div class="page-content">
+            <h1 class="center-align" style="font-size: 13pt; margin-bottom: 20px;">Table of Contents (Cont.)</h1>
+            
+            <table class="toc-table">
+                <tr>
+                    <td class="toc-indent">3.2 FUNCTIONAL REQUIREMENTS</td>
+                    <td class="toc-dots">......................................................................................................................</td>
+                    <td class="toc-page">7</td>
+                </tr>
+                <tr>
+                    <td class="toc-double-indent">3.2.1 User Authentication & Authorization (RBAC)</td>
+                    <td class="toc-dots">......................................................................................................................</td>
+                    <td class="toc-page">7</td>
+                </tr>
+                <tr>
+                    <td class="toc-double-indent">3.2.2 Real-time Health Vital Monitoring & Tracking</td>
+                    <td class="toc-dots">......................................................................................................................</td>
+                    <td class="toc-page">8</td>
+                </tr>
+                <tr>
+                    <td class="toc-double-indent">3.2.3 Appointment Scheduling & Booking System</td>
+                    <td class="toc-dots">......................................................................................................................</td>
+                    <td class="toc-page">9</td>
+                </tr>
+                <tr>
+                    <td class="toc-double-indent">3.2.4 AI-Powered Health Report Generation & Insights</td>
+                    <td class="toc-dots">......................................................................................................................</td>
+                    <td class="toc-page">10</td>
+                </tr>
+                <tr>
+                    <td class="toc-double-indent">3.2.5 Real-Time Critical Alerts & Notifications</td>
+                    <td class="toc-dots">......................................................................................................................</td>
+                    <td class="toc-page">11</td>
+                </tr>
+                <tr>
+                    <td class="toc-double-indent">3.2.6 Doctor Credentials Verification Control Center</td>
+                    <td class="toc-dots">......................................................................................................................</td>
+                    <td class="toc-page">12</td>
+                </tr>
+                <tr>
+                    <td class="toc-indent" style="padding-top: 6px;">3.5 NON-FUNCTIONAL REQUIREMENTS</td>
+                    <td class="toc-dots" style="padding-top: 6px;">......................................................................................................................</td>
+                    <td class="toc-page" style="padding-top: 6px;">13</td>
+                </tr>
+                <tr>
+                    <td class="toc-double-indent">3.5.1 Performance</td>
+                    <td class="toc-dots">......................................................................................................................</td>
+                    <td class="toc-page">13</td>
+                </tr>
+                <tr>
+                    <td class="toc-double-indent">3.5.2 Reliability</td>
+                    <td class="toc-dots">......................................................................................................................</td>
+                    <td class="toc-page">13</td>
+                </tr>
+                <tr>
+                    <td class="toc-double-indent">3.5.3 Availability</td>
+                    <td class="toc-dots">......................................................................................................................</td>
+                    <td class="toc-page">14</td>
+                </tr>
+                <tr>
+                    <td class="toc-double-indent">3.5.4 Security</td>
+                    <td class="toc-dots">......................................................................................................................</td>
+                    <td class="toc-page">14</td>
+                </tr>
+                <tr>
+                    <td class="toc-double-indent">3.5.5 Maintainability</td>
+                    <td class="toc-dots">......................................................................................................................</td>
+                    <td class="toc-page">15</td>
+                </tr>
+                <tr>
+                    <td class="toc-double-indent">3.5.6 Portability</td>
+                    <td class="toc-dots">......................................................................................................................</td>
+                    <td class="toc-page">15</td>
+                </tr>
+                <tr>
+                    <td class="toc-indent" style="padding-top: 6px;">3.7 DESIGN CONSTRAINTS</td>
+                    <td class="toc-dots" style="padding-top: 6px;">......................................................................................................................</td>
+                    <td class="toc-page" style="padding-top: 6px;">16</td>
+                </tr>
+                <tr>
+                    <td class="toc-indent">3.9 OTHER REQUIREMENTS</td>
+                    <td class="toc-dots">......................................................................................................................</td>
+                    <td class="toc-page">16</td>
+                </tr>
+                <tr>
+                    <td class="bold" style="padding-top: 6px;">4. ANALYSIS MODELS</td>
+                    <td class="toc-dots" style="padding-top: 6px;">......................................................................................................................</td>
+                    <td class="toc-page" style="padding-top: 6px;">17</td>
+                </tr>
+                <tr>
+                    <td class="toc-indent">4.1 DATA FLOW DIAGRAMS (DFD)</td>
+                    <td class="toc-dots">......................................................................................................................</td>
+                    <td class="toc-page">17</td>
+                </tr>
+                <tr>
+                    <td class="bold" style="padding-top: 6px;">5. GITHUB LINK</td>
+                    <td class="toc-dots" style="padding-top: 6px;">......................................................................................................................</td>
+                    <td class="toc-page" style="padding-top: 6px;">18</td>
+                </tr>
+                <tr>
+                    <td class="bold" style="padding-top: 6px;">A. APPENDICES</td>
+                    <td class="toc-dots" style="padding-top: 6px;">......................................................................................................................</td>
+                    <td class="toc-page" style="padding-top: 6px;">A-1</td>
+                </tr>
+            </table>
+        </div>
+        
+        <div class="page-footer">
+            <div>Software Requirements Specification</div>
+            <div>Page iv</div>
+        </div>
+    </div>
+
+    <!-- PAGE 5: SECTION 1 (INTRODUCTION START) -->
+    <div class="page" id="page-5">
+        <div class="page-header">
+            <div class="page-header-title">Project Name: MediFlow</div>
+            <div></div>
+        </div>
+        
+        <div class="page-content">
+            <h1>1. Introduction</h1>
+            
+            <h2>1.1 Purpose</h2>
+            <p>This SRS establishes the formal requirements framework for the <strong>MediFlow</strong> platform. It acts as the core baseline for systems architects, frontend developers (React), backend engineers (Laravel), and QA testing teams during implementation.</p>
+
+            <h2>1.2 Scope</h2>
+            <p><strong>MediFlow</strong> is a Remote Patient Monitoring application utilizing a secure cloud-native model to track, alert, and summarize physiological telemetry.</p>
+            <p><strong>Primary Objectives:</strong></p>
+            <ul>
+                <li><strong>Dynamic Custom Dashboards:</strong> Dedicated Patient (Care Hub), Doctor (Command Center), and Admin workspaces.</li>
+                <li><strong>Biometric Acquisition:</strong> Tracking metrics (Heart Rate, SpO2, Blood Pressure, Sugar Levels, Temperature).</li>
+                <li><strong>Immediate Warning Pushes:</strong> Threshold violations broadcasted to doctors under 500ms via WebSockets.</li>
+                <li><strong>AI Diagnostics Support:</strong> Summary draft creation utilizing Google Gemini 2.5 Flash API.</li>
+                <li><strong>Vetted Scheduling:</strong> Conflicting calendar slots prevented during doctor bookings.</li>
+            </ul>
+            <p><strong>Out of Scope:</strong> Legally binding primary prescriptions and direct hardware clinical intervention commands.</p>
+        </div>
+        
+        <div class="page-footer">
+            <div>Software Requirements Specification</div>
+            <div>Page 1</div>
+        </div>
+    </div>
+
+    <!-- PAGE 6: SECTION 1 (INTRODUCTION CONT.) -->
+    <div class="page" id="page-6">
+        <div class="page-header">
+            <div class="page-header-title">Project Name: MediFlow</div>
+            <div></div>
+        </div>
+        
+        <div class="page-content">
+            <h2>1.3 Definitions, Acronyms, and Abbreviations</h2>
+            <ul>
+                <li><strong>JWT:</strong> JSON Web Token. Standard for secure stateless JSON authorization packets.</li>
+                <li><strong>RBAC:</strong> Role-Based Access Control. Route security mapping by defined database permissions.</li>
+                <li><strong>WebSocket:</strong> Asynchronous full-duplex TCP channels for live data relays.</li>
+                <li><strong>DFD:</strong> Data Flow Diagram. Flowcharts charting logical data transitions.</li>
+                <li><strong>LLM:</strong> Large Language Model (specifically Google Gemini 2.5 Flash API).</li>
+                <li><strong>NoSQL:</strong> Schema-less document storage database (specifically MongoDB).</li>
+                <li><strong>HIPAA:</strong> Health Insurance Portability and Accountability Act.</li>
+                <li><strong>MTBF:</strong> Mean Time Between Failures.</li>
+            </ul>
+
+            <h2>1.4 References</h2>
+            <ol>
+                <li><strong>IEEE Std 830-1998:</strong> Recommended Practice for Software Requirements Specifications.</li>
+                <li><strong>MongoDB Database Documentation (v6.0+):</strong> Document modeling, indexing structures, and loose schema guidelines.</li>
+                <li><strong>Laravel 12 Framework Manual:</strong> Stateless event broadcasting, middleware filters, and REST controllers.</li>
+                <li><strong>React 18.3 & Vite 7 Official Guidelines:</strong> State slices and component lifecycle flows.</li>
+            </ol>
+
+            <h2>1.5 Overview</h2>
+            <p>This document details product perspective, constraints, specific external interfaces, 6 functional features (Authentication, Vitals, Calendars, AI Reports, Alerts, Verification), non-functional benchmarks, Level 0 & 1 DFDs, collection collections, and REST route specifications.</p>
+        </div>
+        
+        <div class="page-footer">
+            <div>Software Requirements Specification</div>
+            <div>Page 2</div>
+        </div>
+    </div>
+
+    <!-- PAGE 7: SECTION 2 (GENERAL DESCRIPTION START) -->
+    <div class="page" id="page-7">
+        <div class="page-header">
+            <div class="page-header-title">Project Name: MediFlow</div>
+            <div></div>
+        </div>
+        
+        <div class="page-content">
+            <h1>2. General Description</h1>
+            
+            <h2>2.1 Product Perspective</h2>
+            <p>MediFlow functions as a modular cloud application. The frontend React single-page application dispatches REST queries to a stateless Laravel 12 API, utilizing MongoDB Atlas for database storage. Asynchronous warning triggers are processed via persistent WebSockets over Laravel Reverb servers.</p>
+            <p>The system connects directly to three external actors (Patients, Doctors, and Administrators) and external APIs (Google OAuth 2.0 and Google Gemini 2.5 Flash).</p>
+
+            <h2>2.2 Product Functions</h2>
+            <ul>
+                <li><strong>Role Authorization:</strong> Portal views restricted by parsed token roles.</li>
+                <li><strong>Biometric logs:</strong> Stores SpO2, Heart Rate, Temperature, BP, and Sugar Levels.</li>
+                <li><strong>Real-time warnings:</strong> WebSocket dispatch of metrics outside safe parameters.</li>
+                <li><strong>Clinical Calendars:</strong> Time slot booking and conflict verification.</li>
+                <li><strong>AI Diagnostics:</strong> Generates report insights based on historical vitals.</li>
+                <li><strong>Doctor Vetting:</strong> Administration review panel for medical certificates.</li>
+            </ul>
+        </div>
+        
+        <div class="page-footer">
+            <div>Software Requirements Specification</div>
+            <div>Page 3</div>
+        </div>
+    </div>
+
+    <!-- PAGE 8: SECTION 2 (GENERAL DESCRIPTION CONT.) -->
+    <div class="page" id="page-8">
+        <div class="page-header">
+            <div class="page-header-title">Project Name: MediFlow</div>
+            <div></div>
+        </div>
+        
+        <div class="page-content">
+            <h2>2.3 User Characteristics</h2>
+            <ul>
+                <li><strong>Patients:</strong> Require simple visual numeric logs, large status badges, and simplified booking calendars.</li>
+                <li><strong>Doctors:</strong> Require complex vital charts, active alert list tick panels, and rapid AI summary buttons.</li>
+                <li><strong>Administrators:</strong> Require secure vetting logs, system activity trackers, and user state controls.</li>
+            </ul>
+
+            <h2>2.4 General Constraints</h2>
+            <ul>
+                <li><strong>Compliance:</strong> Enforces secure HTTPS data in transit and encrypted MongoDB databases (HIPAA).</li>
+                <li><strong>Stateless session:</strong> User access mapped solely via JWT header packets.</li>
+                <li><strong>Application verification:</strong> Database referential constraints checked in Laravel code layers.</li>
+            </ul>
+
+            <h2>2.5 Assumptions and Dependencies</h2>
+            <ul>
+                <li><strong>Network:</strong> Constant internet required to reach MongoDB Atlas and Google API servers.</li>
+                <li><strong>External availability:</strong> Depends on Google Gemini 2.5 Flash API quotas and OAuth operational states.</li>
+            </ul>
+        </div>
+        
+        <div class="page-footer">
+            <div>Software Requirements Specification</div>
+            <div>Page 4</div>
+        </div>
+    </div>
+
+    <!-- PAGE 9: SECTION 3 (SPECIFIC REQUIREMENTS - EXTERNAL INTERFACES) -->
+    <div class="page" id="page-9">
+        <div class="page-header">
+            <div class="page-header-title">Project Name: MediFlow</div>
+            <div></div>
+        </div>
+        
+        <div class="page-content">
+            <h1>3. Specific Requirements</h1>
+
+            <h2>3.1 External Interface Requirements</h2>
+
+            <h3>3.1.1 User Interfaces</h3>
+            <ul>
+                <li><strong>Layout:</strong> Responsive glassmorphic dark-theme layouts styled via Tailwind CSS v4.</li>
+                <li><strong>Palette:</strong> Deep Navy Slate background (#0b0f19), Emerald Green normal vitals (#10b981), Crimson emergency notifications (#ef4444).</li>
+                <li><strong>Scalability:</strong> Grid scaling for Mobile (patient vital logs) and Desktop (doctor command center).</li>
+            </ul>
+
+            <h3>3.1.2 Hardware Interfaces</h3>
+            <ul>
+                <li><strong>Telemetry Ingestion:</strong> Numeric forms for manual inputs, with background API endpoints ready for IoT devices.</li>
+                <li><strong>Server:</strong> Minimum 2GB RAM for Laravel core runtimes and 500MB for Vite servers.</li>
+            </ul>
+        </div>
+        
+        <div class="page-footer">
+            <div>Software Requirements Specification</div>
+            <div>Page 5</div>
+        </div>
+    </div>
+
+    <!-- PAGE 10: SECTION 3 (SPECIFIC REQUIREMENTS - INTERFACES CONT.) -->
+    <div class="page" id="page-10">
+        <div class="page-header">
+            <div class="page-header-title">Project Name: MediFlow</div>
+            <div></div>
+        </div>
+        
+        <div class="page-content">
+            <h3>3.1.3 Software Interfaces</h3>
+            <ul>
+                <li><strong>OS:</strong> Highly portable across Windows 10/11, macOS, and Linux configurations.</li>
+                <li><strong>Storage:</strong> MongoDB Cloud storage managed via MongoDB Atlas services.</li>
+                <li><strong>External AI API:</strong> Direct REST clients communicating with Google Gemini 2.5 Flash nodes.</li>
+                <li><strong>WebSocket Service:</strong> Asynchronous broadcasting through local Laravel Reverb servers.</li>
+            </ul>
+
+            <h3>3.1.4 Communications Interfaces</h3>
+            <ul>
+                <li><strong>Protocols:</strong> Strict secure HTTPS REST API routing and wss:// secure WebSocket channels.</li>
+                <li><strong>Request Token:</strong> Standard Bearer token packet mapping: <code>Authorization: Bearer &lt;JWT_TOKEN&gt;</code></li>
+            </ul>
+        </div>
+        
+        <div class="page-footer">
+            <div>Software Requirements Specification</div>
+            <div>Page 6</div>
+        </div>
+    </div>
+
+    <!-- PAGE 11: SECTION 3.2 (FUNCTIONAL REQUIREMENTS - AUTHENTICATION) -->
+    <div class="page" id="page-11">
+        <div class="page-header">
+            <div class="page-header-title">Project Name: MediFlow</div>
+            <div></div>
+        </div>
+        
+        <div class="page-content">
+            <h2>3.2 Functional Requirements</h2>
+
+            <h3>3.2.1 User Authentication & Authorization (RBAC)</h3>
+            
+            <h4>3.2.1.1 Introduction</h4>
+            <p>Restricts access to designated patient, doctor, and admin portals based on role access keys.</p>
+            
+            <h4>3.2.1.2 Inputs</h4>
+            <ul>
+                <li>Local authentication email and password credentials.</li>
+                <li>Social token parameters through Google OAuth logins.</li>
+            </ul>
+            
+            <h4>3.2.1.3 Processing</h4>
+            <ol>
+                <li>Checks for password format validations and duplicate email matches.</li>
+                <li>Applies bcrypt password encryption with a standard work index of 12.</li>
+                <li>Constructs signed JWT token packets containing user ID and authorization roles (valid for 60m).</li>
+            </ol>
+            
+            <h4>3.2.1.4 Outputs</h4>
+            <ul>
+                <li>Secure JSON responses containing role profiles and signed JWT token strings.</li>
+                <li>Dynamic client routing redirects based on authorization status.</li>
+            </ul>
+            
+            <h4>3.2.1.5 Error Handling</h4>
+            <ul>
+                <li>Returns a 422 error response for invalid formats and duplicate registration attempts.</li>
+                <li>Returns a 401 error response for invalid login matching.</li>
+            </ul>
+        </div>
+        
+        <div class="page-footer">
+            <div>Software Requirements Specification</div>
+            <div>Page 7</div>
+        </div>
+    </div>
+
+    <!-- PAGE 12: SECTION 3.2 (FUNCTIONAL REQUIREMENTS - VITALS MONITORING) -->
+    <div class="page" id="page-12">
+        <div class="page-header">
+            <div class="page-header-title">Project Name: MediFlow</div>
+            <div></div>
+        </div>
+        
+        <div class="page-content">
+            <h3>3.2.2 Real-time Health Vital Monitoring & Tracking</h3>
+            
+            <h4>3.2.2.1 Introduction</h4>
+            <p>Handles the entry, database write, visual graphing, and alert checking of biometrics.</p>
+            
+            <h4>3.2.2.2 Inputs</h4>
+            <ul>
+                <li>Numerical vitals: Heart Rate, SpO2, Temperature, BP, and Sugar Levels.</li>
+                <li>Metadata: Patient ID string and entry timestamps.</li>
+            </ul>
+            
+            <h4>3.2.2.3 Processing</h4>
+            <ol>
+                <li>Verifies metric inputs lie within standard physiological bounds.</li>
+                <li>Applies MongoDB writes to the health_metrics collection linked to the patient ID.</li>
+                <li>Fires asynchronous alert checking algorithms and triggers Reverb broadcasts if limits are exceeded.</li>
+            </ol>
+            
+            <h4>3.2.2.4 Outputs</h4>
+            <ul>
+                <li>Updated history charts on the patient home care hub.</li>
+                <li>Updated visual vital curves on doctor workspaces.</li>
+            </ul>
+            
+            <h4>3.2.2.5 Error Handling</h4>
+            <ul>
+                <li>Dispatches 422 error validations if metrics exceed predefined maximum parameters.</li>
+            </ul>
+        </div>
+        
+        <div class="page-footer">
+            <div>Software Requirements Specification</div>
+            <div>Page 8</div>
+        </div>
+    </div>
+
+    <!-- PAGE 13: SECTION 3.2 (FUNCTIONAL REQUIREMENTS - APPOINTMENTS) -->
+    <div class="page" id="page-13">
+        <div class="page-header">
+            <div class="page-header-title">Project Name: MediFlow</div>
+            <div></div>
+        </div>
+        
+        <div class="page-content">
+            <h3>3.2.3 Appointment Scheduling & Booking System</h3>
+            
+            <h4>3.2.3.1 Introduction</h4>
+            <p>Schedules clinical sessions between patients and certified doctors.</p>
+            
+            <h4>3.2.3.2 Inputs</h4>
+            <ul>
+                <li>Selected Doctor ID, target date, consultation hour slot, and clinical notes.</li>
+                <li>Workflow actions: approve, reject, or request reschedule.</li>
+            </ul>
+            
+            <h4>3.2.3.3 Processing</h4>
+            <ol>
+                <li>Checks that target physician profiles possess verified licensing states.</li>
+                <li>Queries database collection tables to prevent doctor calendar double-bookings.</li>
+                <li>Writes scheduled state documents and dispatches WebSocket notification flags.</li>
+            </ol>
+            
+            <h4>3.2.3.4 Outputs</h4>
+            <ul>
+                <li>Updated calendar slots in both the patient and doctor dashboards.</li>
+                <li>A new document written in the appointments collection.</li>
+            </ul>
+            
+            <h4>3.2.3.5 Error Handling</h4>
+            <ul>
+                <li>Returns a 409 conflict code if booking overlaps with an existing appointment.</li>
+            </ul>
+        </div>
+        
+        <div class="page-footer">
+            <div>Software Requirements Specification</div>
+            <div>Page 9</div>
+        </div>
+    </div>
+
+    <!-- PAGE 14: SECTION 3.2 (FUNCTIONAL REQUIREMENTS - AI REPORTS) -->
+    <div class="page" id="page-14">
+        <div class="page-header">
+            <div class="page-header-title">Project Name: MediFlow</div>
+            <div></div>
+        </div>
+        
+        <div class="page-content">
+            <h3>3.2.4 AI-Powered Health Report Generation & Insights</h3>
+            
+            <h4>3.2.4.1 Introduction</h4>
+            <p>Automates analysis of patient vitals logs using generative AI.</p>
+            
+            <h4>3.2.4.2 Inputs</h4>
+            <ul>
+                <li>Doctor trigger events on individual patient cards.</li>
+                <li>Vitals telemetry payloads, patient age, and clinical notes.</li>
+            </ul>
+            
+            <h4>3.2.4.3 Processing</h4>
+            <ol>
+                <li>Compiles vital history records into a clean, structured payload.</li>
+                <li>Issues secure API requests to the Google Gemini 2.5 Flash endpoint.</li>
+                <li>Saves the generated risk highlights and recommendations in the reports collection.</li>
+            </ol>
+            
+            <h4>3.2.4.4 Outputs</h4>
+            <ul>
+                <li>Draft clinical report views displayed on the doctor's review dashboard.</li>
+            </ul>
+            
+            <h4>3.2.4.5 Error Handling</h4>
+            <ul>
+                <li>Applies fallback static summary algorithms if the Gemini API times out or rate limits are reached.</li>
+            </ul>
+        </div>
+        
+        <div class="page-footer">
+            <div>Software Requirements Specification</div>
+            <div>Page 10</div>
+        </div>
+    </div>
+
+    <!-- PAGE 15: SECTION 3.2 (FUNCTIONAL REQUIREMENTS - ALERTS) -->
+    <div class="page" id="page-15">
+        <div class="page-header">
+            <div class="page-header-title">Project Name: MediFlow</div>
+            <div></div>
+        </div>
+        
+        <div class="page-content">
+            <h3>3.2.5 Real-Time Critical Alerts & Notifications</h3>
+            
+            <h4>3.2.5.1 Introduction</h4>
+            <p>Warns assigned doctors instantly when a patient enters critical vital states.</p>
+            
+            <h4>3.2.5.2 Inputs</h4>
+            <ul>
+                <li>Biometric inputs: SpO2, Heart Rate, Sugar levels, or BP readings.</li>
+                <li>Defined warning bounds: SpO2 &lt; 94%, Heart Rate &gt; 120 bpm.</li>
+            </ul>
+            
+            <h4>3.2.5.3 Processing</h4>
+            <ol>
+                <li>Compares incoming telemetry with predefined vital threshold variables.</li>
+                <li>Writes critical alert log documents to the database when thresholds are crossed.</li>
+                <li>Broadcasts the AlertCreated event via Laravel Reverb to active doctor channels.</li>
+            </ol>
+            
+            <h4>3.2.5.4 Outputs</h4>
+            <ul>
+                <li>Visual emergency popups and audio alarms on doctor dashboards.</li>
+            </ul>
+            
+            <h4>3.2.5.5 Error Handling</h4>
+            <ul>
+                <li>If WebSockets disconnect, the frontend dispatches regular API calls every 15 seconds to ensure continuity.</li>
+            </ul>
+        </div>
+        
+        <div class="page-footer">
+            <div>Software Requirements Specification</div>
+            <div>Page 11</div>
+        </div>
+    </div>
+
+    <!-- PAGE 16: SECTION 3.2 (FUNCTIONAL REQUIREMENTS - DOCTOR VERIFICATION) -->
+    <div class="page" id="page-16">
+        <div class="page-header">
+            <div class="page-header-title">Project Name: MediFlow</div>
+            <div></div>
+        </div>
+        
+        <div class="page-content">
+            <h3>3.2.6 Doctor Credentials Verification Control Center</h3>
+            
+            <h4>3.2.6.1 Introduction</h4>
+            <p>Vetting dashboard for administrators to confirm physician licenses before clinical activation.</p>
+            
+            <h4>3.2.6.2 Inputs</h4>
+            <ul>
+                <li>Physician registration parameters: license keys, specializations, and certificates.</li>
+                <li>Admin approval inputs.</li>
+            </ul>
+            
+            <h4>3.2.6.3 Processing</h4>
+            <ol>
+                <li>Sets doctor status to pending verification upon registration.</li>
+                <li>Compiles credentials inside the administrator vetting console.</li>
+                <li>Updates is_verified tags to true upon positive admin review.</li>
+            </ol>
+            
+            <h4>3.2.6.4 Outputs</h4>
+            <ul>
+                <li>Doctor status updated to verified in database collections.</li>
+                <li>Dynamic integration of the doctor profile into the patient appointment page.</li>
+            </ul>
+            
+            <h4>3.2.6.5 Error Handling</h4>
+            <ul>
+                <li>Blocks booking integrations if the doctor's status is unverified.</li>
+            </ul>
+        </div>
+        
+        <div class="page-footer">
+            <div>Software Requirements Specification</div>
+            <div>Page 12</div>
+        </div>
+    </div>
+
+    <!-- PAGE 17: SECTION 3.5 (NON-FUNCTIONAL REQUIREMENTS) -->
+    <div class="page" id="page-17">
+        <div class="page-header">
+            <div class="page-header-title">Project Name: MediFlow</div>
+            <div></div>
+        </div>
+        
+        <div class="page-content">
+            <h3>3.5 Non-Functional Requirements</h3>
+
+            <h4>3.5.1 Performance</h4>
+            <ul>
+                <li><strong>API Speed:</strong> REST queries completed under <strong>200ms</strong>.</li>
+                <li><strong>Relay:</strong> Critical warnings broadcasted to the doctor's screen in under <strong>500ms</strong>.</li>
+                <li><strong>Loads:</strong> Client assets compiled and rendered under <strong>2.0 seconds</strong>.</li>
+            </ul>
+
+            <h4>3.5.2 Reliability</h4>
+            <ul>
+                <li><strong>Integrity:</strong> Enforces database-level locks and atomic parameters during writes.</li>
+                <li><strong>Continuity:</strong> Targeted continuous engine runtimes exceeding <strong>30 days</strong>.</li>
+            </ul>
+
+            <h4>3.5.3 Availability</h4>
+            <ul>
+                <li><strong>Uptime:</strong> Minimum continuous system uptime targeted at <strong>99.5%</strong>.</li>
+                <li><strong>Recovery:</strong> Frontend self-healing loops auto-retry dropped sockets every 5 seconds.</li>
+            </ul>
+
+            <h4>3.5.4 Security</h4>
+            <ul>
+                <li><strong>Portal:</strong> Enforces strict stateless JWT token checks.</li>
+                <li><strong>Encryption:</strong> Hashes user passwords using bcrypt (work factor 12) and secures all traffic using TLS 1.3.</li>
+            </ul>
+        </div>
+        
+        <div class="page-footer">
+            <div>Software Requirements Specification</div>
+            <div>Page 13</div>
+        </div>
+    </div>
+
+    <!-- PAGE 18: SECTION 3.5 (NFR CONT.), SECTION 3.7 & SECTION 3.9 -->
+    <div class="page" id="page-18">
+        <div class="page-header">
+            <div class="page-header-title">Project Name: MediFlow</div>
+            <div></div>
+        </div>
+        
+        <div class="page-content">
+            <h4>3.5.5 Maintainability</h4>
+            <ul>
+                <li><strong>Design:</strong> Enforces a modular Service Layer architecture, isolating business logic from controllers.</li>
+                <li><strong>Layouts:</strong> UI structured using utility classes in Tailwind CSS v4 to keep components independent.</li>
+            </ul>
+
+            <h4>3.5.6 Portability</h4>
+            <ul>
+                <li><strong>Browsers:</strong> Fully compatible across Chrome, Safari, Firefox, and Edge.</li>
+                <li><strong>Environment:</strong> Deployable on standard hosts running PHP 8.2+ and Node 18+.</li>
+            </ul>
+
+            <h3>3.7 Design Constraints</h3>
+            <ul>
+                <li><strong>Database:</strong> Exclusively limited to MongoDB Atlas document databases. SQL database structures are prohibited.</li>
+                <li><strong>Styling:</strong> Restricts all styling to native utility configurations in Tailwind CSS v4.</li>
+                <li><strong>State:</strong> Server remains stateless; user state is managed on the client side using Redux.</li>
+            </ul>
+
+            <h3>3.9 Other Requirements</h3>
+            <ul>
+                <li><strong>Codes:</strong> Development logs and testing scripts isolated from production branches.</li>
+                <li><strong>Data Retention:</strong> Telemetry collection entries archived to cold files after 12 months.</li>
+            </ul>
+        </div>
+        
+        <div class="page-footer">
+            <div>Software Requirements Specification</div>
+            <div>Page 14</div>
+        </div>
+    </div>
+
+    <!-- PAGE 19: SECTION 4 (ANALYSIS MODELS - DFD LEVEL 0) -->
+    <div class="page" id="page-19">
+        <div class="page-header">
+            <div class="page-header-title">Project Name: MediFlow</div>
+            <div></div>
+        </div>
+        
+        <div class="page-content">
+            <h2>4. Analysis Models</h2>
+
+            <h3>4.1 Data Flow Diagrams (DFD)</h3>
+            <p>The Level 0 Context Diagram establishes system limits and actor data exchanges:</p>
+            
+            <div class="diagram-box" style="margin-top: 50px; font-size: 9.5pt;">
+                  +----------------------------------------------+
+                  |                 Patient                      |
+                  +------┬--------------------------------▲------+
+                         │                                │
+      Vitals Entry,      │                                │  Alert Notification,
+      Booking Requests   │                                │  Reports Access
+                         ▼                                │
+                 +------------------------------------------------+
+                 |                                                |
+                 |              MEDIFLOW SYSTEM                   |
+                 |                 (CORE)                         |
+                 |                                                |
+                 +------▲--------------------------------──▲------+
+                        │                                  │
+    Clinical Notes,     │                                  │  Doctor Approvals,
+    Report Requests     │                                  │  System Statistics
+                        │                                  │
+                  +-----┴──────────────────+        +──────┴───────────────+
+                  |        Doctor          |        |      Admin           |
+                  +------------------------+        +----------------------+
+            </div>
+            
+            <p style="margin-top: 50px;">This DFD Context level model isolates the primary boundaries between the clinical operators, the remote patients logging metric indices, and the automated reporting and monitoring microservices active in our system.</p>
+        </div>
+        
+        <div class="page-footer">
+            <div>Software Requirements Specification</div>
+            <div>Page 15</div>
+        </div>
+    </div>
+
+    <!-- PAGE 20: SECTION 4 (DFD LEVEL 1) & SECTION 5 (GITHUB LINK) -->
+    <div class="page" id="page-20">
+        <div class="page-header">
+            <div class="page-header-title">Project Name: MediFlow</div>
+            <div></div>
+        </div>
+        
+        <div class="page-content">
+            <h4>Level 1 DFD: System Operations Breakdown</h4>
+            <div class="diagram-box" style="font-size: 7.5pt;">
+       [ Patient ]                                              [ Doctor ]
+         │     ▲                                                  │     ▲
+         │     │                                                  │     │
+         │ (1.2) Live Vitals                                      │ (3.1) Patient List
+  (1.1)  │     │                                           (3.2)  │     │
+  Record │     │                                           Review │     │
+  Vitals │     │                                           Alerts │     │
+         ▼     │                                                  ▼     │
+   ┌───────────┴──────────┐                                ┌────────────┴─────────┐
+   │ 1.0 Vitals Manager   ├───────────────────────────────>│  3.0 Doctor Workspace│
+   └───────────┬──────────┘        WebSocket Broadcast     └────────────┬─────────┘
+               │                                                        │
+               │ (1.3) Write Vitals                                     │ (3.3) Request AI
+               ▼                                                        ▼
+         database.health_metrics                                  ┌────────────┴─────────┐
+                                                                  │ 4.0 AI Report Engine │
+         database.appointments                                    └─────┬──────────▲─────┘
+               ▲                                                        │          │
+               │ (2.3) Write Booking                                    │ (4.2)    │ (4.1) Get
+               ▼                                                        │ Save     │ Vitals
+   ┌───────────┴──────────┐                                             ▼          │ History
+   │ 2.0 Appointment      │                                      database.reports  │
+   │     Scheduler        │                                                        │
+   └───────────▲──────────┘                                                        │
+         │     │                                                                   │
+         │     │                                                                   │
+  (2.1)  │     │ (2.2) Status Updates                                              │
+  Submit │     └───────────────────────────────────────────────────────────────────┘
+  Booking│
+         ▼
+       [ Patient ]
+            </div>
+
+            <h2 style="margin-top: 30px;">5. GITHUB LINK</h2>
+            <p>The source code repositories, commit history, and active branches for the MediFlow Project are tracked at:</p>
+            <p class="bold" style="font-size: 13pt;">Repository URL: https://github.com/shivamkumarp447/mediflow-core-platform</p>
+        </div>
+        
+        <div class="page-footer">
+            <div>Software Requirements Specification</div>
+            <div>Page 16</div>
+        </div>
+    </div>
+
+    <!-- PAGE 21: APPENDIX A.1 (DATABASE SCHEMAS) -->
+    <div class="page" id="page-21">
+        <div class="page-header">
+            <div class="page-header-title">Project Name: MediFlow</div>
+            <div></div>
+        </div>
+        
+        <div class="page-content">
+            <h2>A. Appendices</h2>
+            
+            <h3>A.1 Appendix 1: Database Collection Schemas</h3>
+            <p>The following tables define the structural schemas for our MongoDB collections.</p>
+
+            <h4>1. Users Collection Schema</h4>
+            <table class="data-table">
+                <thead>
+                    <tr>
+                        <th>Field Name</th>
+                        <th>Data Type</th>
+                        <th>Key Type</th>
+                        <th>Validation / Rules</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>_id</td>
+                        <td>ObjectId</td>
+                        <td>Primary Key</td>
+                        <td>Unique, auto-generated</td>
+                    </tr>
+                    <tr>
+                        <td>email</td>
+                        <td>String</td>
+                        <td>Index (Unique)</td>
+                        <td>Must be a valid email</td>
+                    </tr>
+                    <tr>
+                        <td>password</td>
+                        <td>String</td>
+                        <td>Normal</td>
+                        <td>Hashed (bcrypt)</td>
+                    </tr>
+                    <tr>
+                        <td>role</td>
+                        <td>String</td>
+                        <td>Index</td>
+                        <td>admin, doctor, or patient</td>
+                    </tr>
+                    <tr>
+                        <td>is_verified</td>
+                        <td>Boolean</td>
+                        <td>Index</td>
+                        <td>Defaults to false</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <h4>2. Health Metrics Collection Schema</h4>
+            <table class="data-table">
+                <thead>
+                    <tr>
+                        <th>Field Name</th>
+                        <th>Data Type</th>
+                        <th>Key Type</th>
+                        <th>Validation / Rules</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>_id</td>
+                        <td>ObjectId</td>
+                        <td>Primary Key</td>
+                        <td>Unique, auto-generated</td>
+                    </tr>
+                    <tr>
+                        <td>patient_id</td>
+                        <td>ObjectId</td>
+                        <td>Index</td>
+                        <td>Foreign key reference to patients</td>
+                    </tr>
+                    <tr>
+                        <td>heart_rate</td>
+                        <td>Number</td>
+                        <td>Normal</td>
+                        <td>Value must be between 30 and 220</td>
+                    </tr>
+                    <tr>
+                        <td>spo2</td>
+                        <td>Number</td>
+                        <td>Normal</td>
+                        <td>Value must be between 50 and 100</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        
+        <div class="page-footer">
+            <div>Software Requirements Specification</div>
+            <div>Page A-1</div>
+        </div>
+    </div>
+
+    <!-- PAGE 22: APPENDIX A.2 (API SPECIFICATIONS) -->
+    <div class="page" id="page-22">
+        <div class="page-header">
+            <div class="page-header-title">Project Name: MediFlow</div>
+            <div></div>
+        </div>
+        
+        <div class="page-content">
+            <h3>A.2 Appendix 2: REST API Endpoint Specifications</h3>
+            
+            <h4>1. Authentication Endpoints</h4>
+            <table class="data-table">
+                <thead>
+                    <tr>
+                        <th>Method</th>
+                        <th>Endpoint</th>
+                        <th>Access Level</th>
+                        <th>Description</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>POST</td>
+                        <td>/api/v1/auth/register</td>
+                        <td>Public</td>
+                        <td>Registers a new user account</td>
+                    </tr>
+                    <tr>
+                        <td>POST</td>
+                        <td>/api/v1/auth/login</td>
+                        <td>Public</td>
+                        <td>Authenticates credentials and returns a JWT</td>
+                    </tr>
+                    <tr>
+                        <td>GET</td>
+                        <td>/api/v1/auth/me</td>
+                        <td>Logged In</td>
+                        <td>Returns the authenticated user's profile</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <h4>2. Clinical and Telemetry Endpoints</h4>
+            <table class="data-table">
+                <thead>
+                    <tr>
+                        <th>Method</th>
+                        <th>Endpoint</th>
+                        <th>Access Level</th>
+                        <th>Description</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>POST</td>
+                        <td>/api/v1/metrics</td>
+                        <td>Patient Only</td>
+                        <td>Records a new set of vitals</td>
+                    </tr>
+                    <tr>
+                        <td>GET</td>
+                        <td>/api/v1/metrics</td>
+                        <td>Doctor & Admin</td>
+                        <td>Returns history of recorded vitals</td>
+                    </tr>
+                    <tr>
+                        <td>POST</td>
+                        <td>/api/v1/appointments</td>
+                        <td>Patient Only</td>
+                        <td>Submits a new appointment booking</td>
+                    </tr>
+                    <tr>
+                        <td>PATCH</td>
+                        <td>/api/v1/appointments/{id}</td>
+                        <td>Doctor Only</td>
+                        <td>Approves or reschedules an appointment</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        
+        <div class="page-footer">
+            <div>Software Requirements Specification</div>
+            <div>Page A-2</div>
+        </div>
+    </div>
+
+</div>
+
+</body>
+</html>
