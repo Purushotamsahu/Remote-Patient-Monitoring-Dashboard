@@ -309,14 +309,14 @@ export default function LandingPage() {
                                 perks: ['Manage all users', 'System analytics', 'Activity audit logs', 'Platform KPIs'],
                             },
                             {
-                                emoji: 'ðŸ©º',
+                                emoji: '',
                                 role: 'Doctor',
                                 color: 'border-t-blue-600',
                                 badge: 'bg-blue-600',
                                 perks: ['Monitor assigned patients', 'Receive live critical alerts', 'Generate PDF reports', 'Manage appointments'],
                             },
                             {
-                                emoji: 'ðŸ¥',
+                                emoji: '',
                                 role: 'Patient',
                                 color: 'border-t-emerald-600',
                                 badge: 'bg-emerald-600',
