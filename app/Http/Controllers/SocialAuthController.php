@@ -36,7 +36,7 @@ class SocialAuthController extends Controller
                 'email_verified_at' => now(),
                 'is_active'         => true,
             ]);
-            
+
             // Create patient profile for new patient
             \App\Models\Patient::create([
                 'user_id'    => (string) $user->_id,

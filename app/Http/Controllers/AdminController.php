@@ -25,7 +25,7 @@ class AdminController extends Controller
         $totalPatients = User::where('role', 'patient')->count();
         $totalDoctors = User::where('role', 'doctor')->count();
         $totalAdmins = User::where('role', 'admin')->count();
-        
+
         return response()->json([
             'success' => true,
             'data'    => [

@@ -6,8 +6,9 @@
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <meta name="theme-color" content="#2563eb">
     <title>MediFlow – AI-Powered Remote Patient Monitoring</title>
+    <link rel="icon" type="image/jpeg" href="/images/mediflow-logo.jpg">
     <link rel="manifest" href="/manifest.json">
-    <link rel="apple-touch-icon" href="/icons/icon-192.png">
+    <link rel="apple-touch-icon" href="/images/mediflow-logo.jpg">
     @viteReactRefresh
     @vite(['resources/css/app.css', 'resources/js/main.jsx'])
 </head>

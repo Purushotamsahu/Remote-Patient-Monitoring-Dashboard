@@ -146,11 +146,11 @@ class PatientController extends Controller
         $doctor = User::where('_id', $request->doctor_id)
             ->where('role', 'doctor')
             ->first();
-        
+
         if (!$doctor) {
             return response()->json(['success' => false, 'message' => 'Doctor not found.'], 404);
         }
-        
+
         if (!$doctor->is_verified) {
             return response()->json(['success' => false, 'message' => 'Doctor is not verified yet.'], 403);
         }

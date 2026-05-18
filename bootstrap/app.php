@@ -19,7 +19,7 @@ return Application::configure(basePath: dirname(__DIR__))
     ->withMiddleware(function (Middleware $middleware): void {
         // Add CORS middleware for frontend communication
         $middleware->prepend(\Illuminate\Http\Middleware\HandleCors::class);
-        
+
         $middleware->alias([
             'role' => \App\Http\Middleware\RoleMiddleware::class,
             'jwt.auth' => \Tymon\JWTAuth\Http\Middleware\Authenticate::class,

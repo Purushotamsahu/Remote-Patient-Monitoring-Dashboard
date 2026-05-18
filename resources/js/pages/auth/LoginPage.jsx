@@ -19,8 +19,8 @@ export default function LoginPage() {
             toast.success(`Welcome back, ${user.name?.split(' ')[0]}!`);
             navigate(`/${user.role}`, { replace: true });
         } catch (err) {
-            const errorMsg = err?.response?.data?.message 
-                || err?.message 
+            const errorMsg = err?.response?.data?.message
+                || err?.message
                 || 'Login failed. Please check your credentials.';
             toast.error(errorMsg);
         } finally {

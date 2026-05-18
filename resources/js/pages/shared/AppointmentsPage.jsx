@@ -120,12 +120,12 @@ export default function AppointmentsPage() {
             cancelled:  [],  // No transitions from cancelled
             no_show:    [],  // No transitions from no_show
         };
-        
+
         if (!validTransitions[a.status]?.includes(newStatus)) {
             toast.error(`Cannot transition from ${a.status} to ${newStatus}`);
             return;
         }
-        
+
         setUpdatingId(a._id);
         try {
             await dispatch(updateAppointment({ id: a._id, data: { status: newStatus } })).unwrap();
